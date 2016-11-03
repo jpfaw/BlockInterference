@@ -26,27 +26,13 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
 
-        let difficult = difficulty()
-        
-        
         // 背景色
         backgroundColor = UIColor(colorLiteralRed: 1, green: 1, blue: 1, alpha: 1)
+        
         // setup function
         setupScoreLabel()
         setupTitleBackLabel()
-        
-        
-        let titleLabel = SKLabelNode()
-        titleLabel.fontColor = UIColor.black
-        //titleLabel.fontSize = 20
-        titleLabel.alpha = 1
-        titleLabel.position = CGPoint(x: frame.size.width - 80, y: frame.size.height - 30)
-        titleLabel.text = "difficulty : \(difficult)"
-        titleLabel.horizontalAlignmentMode = .center
-        titleLabel.zPosition = 100
-        addChild(titleLabel)
-        
-
+        setupDifficulty()
         
     }
     
@@ -70,13 +56,13 @@ class GameScene: SKScene {
         bestScoreLabelNode.position = CGPoint(x: 10, y: self.frame.size.height - 60)
         bestScoreLabelNode.zPosition = 100
         bestScoreLabelNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
-        bestScoreLabelNode.text = "Best Score : \(bestScore)"
+        bestScoreLabelNode.text = "Best : \(bestScore)"
         self.addChild(bestScoreLabelNode)
     }
     
     func setupTitleBackLabel(){
-        
-        let titleBackSprite = SKSpriteNode(color: UIColor.orange , size: CGSize(width: 150, height: 30))
+        // 背景の設定
+        let titleBackSprite = SKSpriteNode(color: UIColor.cyan , size: CGSize(width: 150, height: 30))
         titleBackSprite.position = CGPoint(x: frame.size.width - 80, y: frame.size.height - 48)
         titleBackSprite.zPosition = 99
         addChild(titleBackSprite)
@@ -86,10 +72,40 @@ class GameScene: SKScene {
         titleBackLabel.alpha = 1
         titleBackLabel.position = CGPoint(x: frame.size.width - 80, y: frame.size.height - 60)
         titleBackLabel.text = "titleに戻る"
+        titleBackLabel.fontName = "Al-Bayan-Bold"
         titleBackLabel.horizontalAlignmentMode = .center
         titleBackLabel.zPosition = 100
         addChild(titleBackLabel)
- 
+    }
+    
+    func setupDifficulty(){
+        
+        let difficult = difficulty()
+        let difficultyLabel = SKLabelNode()
+        difficultyLabel.fontColor = UIColor.black
+        difficultyLabel.alpha = 1
+        difficultyLabel.position = CGPoint(x: frame.size.width - 80, y: frame.size.height - 30)
+        difficultyLabel.text = "difficulty:\(difficult)"
+        difficultyLabel.fontName = "Al-Bayan-Bold"
+        difficultyLabel.horizontalAlignmentMode = .center
+        difficultyLabel.zPosition = 100
+        addChild(difficultyLabel)
+        
+        //難易度によって難易度ラベルの背景色を変更
+        var bg : SKSpriteNode!
+        switch difficult {
+        case 1:  bg = SKSpriteNode(color: UIColor.green  , size: CGSize(width: 150, height: 30))
+        case 2:  bg = SKSpriteNode(color: UIColor.orange , size: CGSize(width: 150, height: 30))
+        case 3:  bg = SKSpriteNode(color: UIColor.red    , size: CGSize(width: 150, height: 30))
+        default: bg = SKSpriteNode(color: UIColor.black  , size: CGSize(width: 150, height: 30))
+        }
+        bg.position = CGPoint(x: frame.size.width - 80, y: frame.size.height - 20)
+        bg.zPosition = 99
+        addChild(bg)
+    }
+    
+    func windowNode(){
+        
     }
     
 
