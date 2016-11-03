@@ -11,7 +11,6 @@ import UIKit
 class ViewController: UIViewController {
     
     var difficult : Int = 0
-    //let highScore = UserDefaults.integerForKey("BEST")
     
     // 難易度設定
     @IBAction func easy(_ sender: AnyObject) {
@@ -48,6 +47,15 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    //難易度を渡す
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let gameViewController:GameViewController = segue.destination as! GameViewController
+        
+        gameViewController.difficult = difficult
+    }
+    
+    
 
 
 }

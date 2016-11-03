@@ -9,6 +9,8 @@
 import UIKit
 
 class GameViewController: UIViewController {
+    
+    var difficult:Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
