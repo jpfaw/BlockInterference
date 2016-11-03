@@ -7,21 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D62B51301DCB3172000CA560 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D62B512F1DCB3172000CA560 /* SpriteKit.framework */; };
+		D62B51531DCB5866000CA560 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D62B51521DCB5866000CA560 /* Assets.xcassets */; };
+		D62B515F1DCB6FA0000CA560 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62B515E1DCB6FA0000CA560 /* GameScene.swift */; };
 		D6870F0B1DBB46C5001A5CA8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6870F0A1DBB46C5001A5CA8 /* AppDelegate.swift */; };
 		D6870F0D1DBB46C5001A5CA8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6870F0C1DBB46C5001A5CA8 /* ViewController.swift */; };
 		D6870F101DBB46C5001A5CA8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6870F0E1DBB46C5001A5CA8 /* Main.storyboard */; };
-		D6870F121DBB46C5001A5CA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D6870F111DBB46C5001A5CA8 /* Assets.xcassets */; };
 		D6870F151DBB46C5001A5CA8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6870F131DBB46C5001A5CA8 /* LaunchScreen.storyboard */; };
 		D6870F1F1DBB47BB001A5CA8 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6870F1E1DBB47BB001A5CA8 /* GameViewController.swift */; };
 		D6870F211DBB47CD001A5CA8 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6870F201DBB47CD001A5CA8 /* ResultViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D62B512F1DCB3172000CA560 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
+		D62B51521DCB5866000CA560 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D62B515E1DCB6FA0000CA560 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		D6870F071DBB46C5001A5CA8 /* sleeping.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sleeping.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6870F0A1DBB46C5001A5CA8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D6870F0C1DBB46C5001A5CA8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D6870F0F1DBB46C5001A5CA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D6870F111DBB46C5001A5CA8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D6870F141DBB46C5001A5CA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D6870F161DBB46C5001A5CA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D6870F1E1DBB47BB001A5CA8 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameViewController.swift; path = ../GameViewController.swift; sourceTree = "<group>"; };
@@ -33,17 +37,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D62B51301DCB3172000CA560 /* SpriteKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D62B512E1DCB3171000CA560 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D62B512F1DCB3172000CA560 /* SpriteKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D6870EFE1DBB46C5001A5CA8 = {
 			isa = PBXGroup;
 			children = (
 				D6870F091DBB46C5001A5CA8 /* sleeping */,
 				D6870F081DBB46C5001A5CA8 /* Products */,
+				D62B512E1DCB3171000CA560 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -59,11 +73,12 @@
 			isa = PBXGroup;
 			children = (
 				D6870F0A1DBB46C5001A5CA8 /* AppDelegate.swift */,
-				D6870F1E1DBB47BB001A5CA8 /* GameViewController.swift */,
-				D6870F201DBB47CD001A5CA8 /* ResultViewController.swift */,
 				D6870F0C1DBB46C5001A5CA8 /* ViewController.swift */,
+				D6870F1E1DBB47BB001A5CA8 /* GameViewController.swift */,
+				D62B515E1DCB6FA0000CA560 /* GameScene.swift */,
+				D6870F201DBB47CD001A5CA8 /* ResultViewController.swift */,
 				D6870F0E1DBB46C5001A5CA8 /* Main.storyboard */,
-				D6870F111DBB46C5001A5CA8 /* Assets.xcassets */,
+				D62B51521DCB5866000CA560 /* Assets.xcassets */,
 				D6870F131DBB46C5001A5CA8 /* LaunchScreen.storyboard */,
 				D6870F161DBB46C5001A5CA8 /* Info.plist */,
 			);
@@ -97,7 +112,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = Yuta;
 				TargetAttributes = {
 					D6870F061DBB46C5001A5CA8 = {
@@ -130,7 +145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D6870F151DBB46C5001A5CA8 /* LaunchScreen.storyboard in Resources */,
-				D6870F121DBB46C5001A5CA8 /* Assets.xcassets in Resources */,
+				D62B51531DCB5866000CA560 /* Assets.xcassets in Resources */,
 				D6870F101DBB46C5001A5CA8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -142,6 +157,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D62B515F1DCB6FA0000CA560 /* GameScene.swift in Sources */,
 				D6870F0D1DBB46C5001A5CA8 /* ViewController.swift in Sources */,
 				D6870F1F1DBB47BB001A5CA8 /* GameViewController.swift in Sources */,
 				D6870F0B1DBB46C5001A5CA8 /* AppDelegate.swift in Sources */,
@@ -189,6 +205,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -238,6 +255,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -305,6 +323,7 @@
 				D6870F1B1DBB46C5001A5CA8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
