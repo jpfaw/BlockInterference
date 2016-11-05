@@ -94,6 +94,13 @@ class GameScene: SKScene{
         
         // その他イベント
         print("nowData:\(nowData)")
+        if score > userDefaults.integer(forKey: "BEST") {
+            userDefaults.set(score, forKey: "BEST")
+        }
+        userDefaults.synchronize()
+        scoreLabelNode.text = "Score : \(score)"
+        bestScoreLabelNode.text = "Best : \(userDefaults.integer(forKey: "BEST"))"
+        
     }
     
     // タッチイベント処理
@@ -112,6 +119,9 @@ class GameScene: SKScene{
                     mezamasiSprite.removeFromParent()
                     mezamasiTimer.invalidate()
                     mezamasiSeconds = 0
+                    score += 100
+                    scoreLabelNode.text = "Score : \(score)"
+
                 }
             }
         }
@@ -288,6 +298,7 @@ class GameScene: SKScene{
     
     func countdownTimer(){
         remainingTime -= 1
+        score += 1
         if remainingTime == 0{
             gameNow = false
         }
