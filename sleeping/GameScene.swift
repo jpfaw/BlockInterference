@@ -20,14 +20,24 @@ class GameScene: SKScene {
     var bestScoreLabelNode:SKLabelNode!
     var TitleBackLabel:SKLabelNode!
     var timeLabel:SKLabelNode!
-    var nightSprite:SKSpriteNode!
-    var windowSprite:SKSpriteNode!
-    var manSprite:SKSpriteNode!
     
-    var remainingTime = 60
+    // Item SpriteNode
+    var nightSprite:SKSpriteNode!       // 夜の背景
+    var windowSprite:SKSpriteNode!      // 窓枠
+    var manSprite:SKSpriteNode!         // 寝てる人
+    var denkiSprite:SKSpriteNode!       // 電気
+    var switchSprite:SKSpriteNode!      // 電気のスイッチ
+    
+    // check
+    var gameNow = true                  // ゲーム中なら true
+    var denkiCheck = false              // 電気がついてたら true
+    
+    var remainingTime = 5
     var timer = Timer()
     var eventTimer = Timer()
     var timerBehavior = false //未使用
+    
+    let magnification:CGFloat = 0.5
     
     
     
@@ -48,11 +58,45 @@ class GameScene: SKScene {
         
         //その他（実装中）
         time() //time内でeventManagementを起動
+        denkiOff()
         
     }
     
 
+    func denkiOn(){
+        let denkiTexture = SKTexture(imageNamed: "light_on")
+        denkiTexture.filteringMode = SKTextureFilteringMode.nearest //画質荒い：動作早い
+        denkiSprite = SKSpriteNode(imageNamed: "light_on")
+        denkiSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height - 70)
+        denkiSprite.zPosition = 100
+        denkiSprite.setScale(1.5)
+        addChild(denkiSprite)
+        
+        let switchTexture = SKTexture(imageNamed: "switch_on")
+        switchTexture.filteringMode = SKTextureFilteringMode.nearest
+        switchSprite = SKSpriteNode(imageNamed: "switch_on")
+        switchSprite.position = CGPoint(x: 50, y: frame.size.height/2 - 60)
+        switchSprite.zPosition = 100
+        switchSprite.setScale(0.3)
+        addChild(switchSprite)
+    }
     
+    func denkiOff(){
+        let denkiTexture = SKTexture(imageNamed: "light_off")
+        denkiTexture.filteringMode = SKTextureFilteringMode.nearest //画質荒い：動作早い
+        denkiSprite = SKSpriteNode(imageNamed: "light_off")
+        denkiSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height - 70)
+        denkiSprite.zPosition = 100
+        denkiSprite.setScale(1.5)
+        addChild(denkiSprite)
+        
+        let switchTexture = SKTexture(imageNamed: "switch_off")
+        switchTexture.filteringMode = SKTextureFilteringMode.nearest
+        switchSprite = SKSpriteNode(imageNamed: "switch_off")
+        switchSprite.position = CGPoint(x: 50, y: frame.size.height/2 - 60)
+        switchSprite.zPosition = 100
+        switchSprite.setScale(0.3)
+        addChild(switchSprite)    }
 
     
 
@@ -60,6 +104,7 @@ class GameScene: SKScene {
 
     func eventManagement(){
         let difficult = difficulty()
+        
         let nowData = (difficult, remainingTime)
         
         switch nowData {
@@ -77,6 +122,37 @@ class GameScene: SKScene {
         // その他イベント
         print("nowData:\(nowData)")
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view?.isMultipleTouchEnabled = true
+        
+        // 一つの情報を取り出します
+        for touch in touches {
+            let location = touch.location(in: self)
+            let touchNodes = self.nodes(at: location)
+            for tNode in touchNodes {
+                if tNode == switchSprite{
+                    switchDenki()
+                }
+            }
+        }
+    }
+    
+    func switchDenki(){
+        if gameNow == true {
+            switchSprite.removeFromParent()
+            denkiSprite.removeFromParent()
+            if denkiCheck == false {
+                denkiOn()
+                backgroundColor = UIColor(colorLiteralRed: 1, green: 1, blue: 1, alpha: 1)
+                denkiCheck = true
+            }else{
+                denkiOff()
+                backgroundColor = UIColor(colorLiteralRed: 0.7, green: 0.7, blue: 0.7, alpha: 1)
+                denkiCheck = false
+            }
+        }
+    }
 
     
     
@@ -85,22 +161,18 @@ class GameScene: SKScene {
         backgroundColor = UIColor(colorLiteralRed: 1, green: 1, blue: 1, alpha: 1)
 
         nightSprite.removeFromParent()
-        windowSprite.removeFromParent()
         //朝の風景
-        let morningTexture = SKTexture(imageNamed: "asa")
-        morningTexture.filteringMode = SKTextureFilteringMode.nearest //画質荒い：動作早い
-        let morningSprite = SKSpriteNode(texture: morningTexture)
-        morningSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height/2 + 100)
+        let morningSprite = SKSpriteNode(imageNamed: "asa")
+        morningSprite.position = CGPoint(x: frame.size.width/2 - 70, y: frame.size.height/2 + 100)
         morningSprite.zPosition = 97
-        morningSprite.setScale(0.3)
+        morningSprite.setScale(magnification)
         addChild(morningSprite)
         //朝の窓
-        let windowTexture = SKTexture(imageNamed: "window")
-        windowTexture.filteringMode = SKTextureFilteringMode.nearest
-        windowSprite = SKSpriteNode(texture: windowTexture)
-        windowSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height/2 + 100)
+
+        windowSprite = SKSpriteNode(imageNamed: "window")
+        windowSprite.position = CGPoint(x: frame.size.width/2 - 70, y: frame.size.height/2 + 100)
         windowSprite.zPosition = 98
-        windowSprite.setScale(0.3)
+        windowSprite.setScale(magnification)
         addChild(windowSprite)
     }
     
@@ -108,11 +180,10 @@ class GameScene: SKScene {
     
     func wakeupMan(){
         manSprite.removeFromParent()
-        let manTexture = SKTexture(imageNamed: "bed_boy_wake")
-        manTexture.filteringMode = SKTextureFilteringMode.nearest
-        manSprite = SKSpriteNode(texture: manTexture)
-        manSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height/2 )
-        manSprite.setScale(0.3)
+        manSprite = SKSpriteNode(imageNamed: "bed_boy_wake")
+        manSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height/2 - 90 )
+        manSprite.setScale(magnification)
+        manSprite.zPosition = 100
         addChild(manSprite)
     }
     
@@ -142,6 +213,9 @@ class GameScene: SKScene {
     
     func countdownTimer(){
         remainingTime -= 1
+        if remainingTime == 0{
+            gameNow = false
+        }
         if remainingTime == -10 {
             timer.invalidate()
         }
@@ -160,8 +234,9 @@ class GameScene: SKScene {
         let manTexture = SKTexture(imageNamed: "bed_boy_sleep")
         manTexture.filteringMode = SKTextureFilteringMode.nearest //画質荒い：動作早い
         manSprite = SKSpriteNode(texture: manTexture)
-        manSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height/2 )
-        manSprite.setScale(0.3)
+        manSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height/2 - 100)
+        manSprite.setScale(magnification)
+        manSprite.zPosition = 100
         addChild(manSprite)
     }
     
@@ -235,18 +310,10 @@ class GameScene: SKScene {
         let nightTexture = SKTexture(imageNamed: "yoru")
         nightTexture.filteringMode = SKTextureFilteringMode.nearest
         nightSprite = SKSpriteNode(texture: nightTexture)
-        nightSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height/2 + 100)
+        nightSprite.position = CGPoint(x: frame.size.width/2 - 70, y: frame.size.height/2 + 100)
         nightSprite.zPosition = 96
-        nightSprite.setScale(0.3)
+        nightSprite.setScale(magnification)
         addChild(nightSprite)
-        // 夜の窓
-        let windowTexture = SKTexture(imageNamed: "curtain_pink")
-        windowTexture.filteringMode = SKTextureFilteringMode.nearest
-        windowSprite = SKSpriteNode(texture: windowTexture)
-        windowSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height/2 + 100)
-        windowSprite.zPosition = 98
-        windowSprite.setScale(0.3)
-        addChild(windowSprite)
     }
     
 /* ----- setup function zone fin ----- */
