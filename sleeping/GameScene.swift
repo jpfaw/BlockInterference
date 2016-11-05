@@ -33,15 +33,18 @@ class GameScene: SKScene {
     // check
     var gameNow = true                  // ゲーム中なら true
     var denkiCheck = false              // 電気がついてたら true
+    var gameOver = false
     
     
     
     // timer
     var timer = Timer()                 // ゲームの残り時間
     var eventTimer = Timer()            // eventManagerへ毎秒アクセス
+    var denkiTimer = Timer()            // 電気が入ってから何秒経ったか計測
     var timerBehavior = false           // 未使用
     
     let magnification:CGFloat = 0.5     // オブジェクトの倍率管理
+    var denkiSeconds = 0                // 電気つけて経った時間
     
 /* ----- variable management zone fin ----- */
     
@@ -69,7 +72,6 @@ class GameScene: SKScene {
 
     func eventManagement(){
         let difficult = difficulty()
-        
         let nowData = (difficult, remainingTime)
         
         switch nowData {
@@ -102,22 +104,25 @@ class GameScene: SKScene {
         }
     }
     
-    func switchDenki(){
-        if gameNow == true {
-            switchSprite.removeFromParent()
-            denkiSprite.removeFromParent()
-            if denkiCheck == false {
-                denkiOn()
-                backgroundColor = UIColor(colorLiteralRed: 1, green: 1, blue: 1, alpha: 1)
-                denkiCheck = true
-            }else{
-                denkiOff()
-                backgroundColor = UIColor(colorLiteralRed: 0.7, green: 0.7, blue: 0.7, alpha: 1)
-                denkiCheck = false
-            }
-        }
-    }
 
+
+    
+    func gameOverAlert(type: Int){
+        
+        timer.invalidate()
+        eventTimer.invalidate()
+        
+        let alert = UIAlertView()
+        alert.title = "Game Over"
+        
+        switch type {
+        case 1: alert.message = "一定時間電気がついていた"
+        default: alert.message = "想定されていないエラー番号です"
+        }
+        
+        alert.addButton(withTitle: "OK")
+        alert.show()
+    }
     
     
 /* ----- Event Function Zone ----- */
@@ -176,7 +181,39 @@ class GameScene: SKScene {
         switchSprite.setScale(0.3)
         addChild(switchSprite)
     }
-
+    
+    func switchDenki(){
+        if gameNow == true {
+            switchSprite.removeFromParent()
+            denkiSprite.removeFromParent()
+            if denkiCheck == false {
+                denkiOn()
+                backgroundColor = UIColor(colorLiteralRed: 1, green: 1, blue: 1, alpha: 1)
+                denkiTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(denkiCount), userInfo: nil, repeats: true)
+                denkiCheck = true
+            }else{
+                denkiOff()
+                denkiTimer.invalidate()
+                backgroundColor = UIColor(colorLiteralRed: 0.7, green: 0.7, blue: 0.7, alpha: 1)
+                denkiCheck = false
+            }
+        }
+    }
+    
+    func denkiCount(){
+        denkiSeconds += 1
+        print("denkiSeconds = \(denkiSeconds)")
+        
+        let difficult = difficulty()
+        if (difficult == 1 && denkiSeconds == 5) ||
+           (difficult == 2 && denkiSeconds == 3) ||
+           (difficult == 3 && denkiSeconds == 2) {
+            denkiTimer.invalidate()
+            gameNow = false
+            gameOver = true
+            gameOverAlert(type: 1)
+        }
+    }
     
 /* ----- Event Function Zone fin ----- */
 
