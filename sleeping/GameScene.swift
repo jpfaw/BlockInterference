@@ -71,7 +71,7 @@ class GameScene: SKScene{
         denkiOff()
         
         //その他（実装中）
-        
+        // goki
         
         
         
@@ -80,7 +80,7 @@ class GameScene: SKScene{
         
         
         // 実装予定イベント
-        // goki
+        
         // broken
         // lightStand
         // yuurei
@@ -140,38 +140,6 @@ class GameScene: SKScene{
     }
     
     
-    func callMezamasi(){
-        let mezamasiTextureA = SKTexture(imageNamed: "mezamasi_1")
-        mezamasiTextureA.filteringMode = SKTextureFilteringMode.linear
-        let mezamasiTextureB = SKTexture(imageNamed: "mezamasi_2")
-        mezamasiTextureB.filteringMode = SKTextureFilteringMode.linear
-        
-        let texuresAnimation = SKAction.animate(with: [mezamasiTextureA, mezamasiTextureB],timePerFrame: 0.1)
-        let mezamasi = SKAction.repeatForever(texuresAnimation)
-        mezamasiSprite = SKSpriteNode(texture: mezamasiTextureA)
-        mezamasiSprite.position = CGPoint(x: frame.size.width - 70, y: frame.size.height/2 - 130)
-        mezamasiSprite.zPosition = 97
-        mezamasiSprite.setScale(0.3)
-        mezamasiSprite.run(mezamasi)
-        addChild(mezamasiSprite)
-        
-        mezamasiTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(mezamasiCount), userInfo: nil, repeats: true)
-    }
-    
-    func mezamasiCount(){
-        mezamasiSeconds += 1
-        print("mezamasiSeconds = \(mezamasiSeconds)")
-        
-        let difficult = difficulty()
-        if (difficult == 1 && mezamasiSeconds == 5) ||
-            (difficult == 2 && mezamasiSeconds == 3) ||
-            (difficult == 3 && mezamasiSeconds == 2) {
-            mezamasiTimer.invalidate()
-            gameNow = false
-            gameOver = true
-            gameOverAlert(type: 2)
-        }
-    }
 
 
     
@@ -282,6 +250,40 @@ class GameScene: SKScene{
             gameOverAlert(type: 1)
         }
     }
+    
+    func callMezamasi(){
+        let mezamasiTextureA = SKTexture(imageNamed: "mezamasi_1")
+        mezamasiTextureA.filteringMode = SKTextureFilteringMode.linear
+        let mezamasiTextureB = SKTexture(imageNamed: "mezamasi_2")
+        mezamasiTextureB.filteringMode = SKTextureFilteringMode.linear
+        
+        let texuresAnimation = SKAction.animate(with: [mezamasiTextureA, mezamasiTextureB],timePerFrame: 0.1)
+        let mezamasi = SKAction.repeatForever(texuresAnimation)
+        mezamasiSprite = SKSpriteNode(texture: mezamasiTextureA)
+        mezamasiSprite.position = CGPoint(x: frame.size.width - 70, y: frame.size.height/2 - 130)
+        mezamasiSprite.zPosition = 97
+        mezamasiSprite.setScale(0.3)
+        mezamasiSprite.run(mezamasi)
+        addChild(mezamasiSprite)
+        
+        mezamasiTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(mezamasiCount), userInfo: nil, repeats: true)
+    }
+    
+    func mezamasiCount(){
+        mezamasiSeconds += 1
+        print("mezamasiSeconds = \(mezamasiSeconds)")
+        
+        let difficult = difficulty()
+        if (difficult == 1 && mezamasiSeconds == 5) ||
+            (difficult == 2 && mezamasiSeconds == 3) ||
+            (difficult == 3 && mezamasiSeconds == 2) {
+            mezamasiTimer.invalidate()
+            gameNow = false
+            gameOver = true
+            gameOverAlert(type: 2)
+        }
+    }
+
     
 /* ----- Event Function Zone fin ----- */
 
