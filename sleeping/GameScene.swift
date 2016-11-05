@@ -40,6 +40,7 @@ class GameScene: SKScene {
         sleepingMan()
         night()
         time()
+        
     }
     
     func difficulty() -> Int{
@@ -141,20 +142,19 @@ class GameScene: SKScene {
     
     var remainingTime = 60
     var timer = Timer()
+    var timerBehavior = false //未使用
     
     func countdownTimer(){
-        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(countdownTimer), userInfo: nil, repeats: false)
         remainingTime -= 1
-        if remainingTime <= 0 {
-            remainingTime = 0
+        if remainingTime == 0 {
+            timer.invalidate()
         }
         print(remainingTime)
-        //timeLabel.text = "残り時間：\(remainingTime)秒"
-        //addChild(timeLabel)
+        timeLabel.text = "残り時間：\(remainingTime)秒"
             }
     
     func time(){
-        let timeLabel = SKLabelNode()
+        timeLabel = SKLabelNode()
         timeLabel.fontColor = UIColor.black
         timeLabel.alpha = 1
         timeLabel.position = CGPoint(x: frame.size.width - 130, y: 10)
@@ -164,8 +164,7 @@ class GameScene: SKScene {
         timeLabel.zPosition = 100
         addChild(timeLabel)
         
-        countdownTimer()
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(countdownTimer), userInfo: nil, repeats: true)
     }
-    
 
 }
