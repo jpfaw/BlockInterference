@@ -71,7 +71,19 @@ class GameScene: SKScene{
         denkiOff()
         
         //その他（実装中）
-        callMezamasi()
+        
+        
+        
+        
+        // 実装済みイベント
+        //callMezamasi()
+        
+        
+        // 実装予定イベント
+        // goki
+        // broken
+        // lightStand
+        // yuurei
         
     }
     
@@ -164,7 +176,6 @@ class GameScene: SKScene{
 
     
     func gameOverAlert(type: Int){
-        
         timer.invalidate()
         eventTimer.invalidate()
         
@@ -310,7 +321,6 @@ class GameScene: SKScene{
         }
     }
     
-    
 /* ----- Foundation Function zone fin -----*/
     
     
@@ -325,7 +335,7 @@ class GameScene: SKScene{
         manSprite.zPosition = 100
         addChild(manSprite)
     }
-    
+
     func setupScoreLabel(){
         score = 0
         scoreLabelNode = SKLabelNode()
