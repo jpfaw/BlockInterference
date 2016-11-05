@@ -30,6 +30,7 @@ class GameScene: SKScene{
     var denkiSprite:SKSpriteNode!       // 電気
     var switchSprite:SKSpriteNode!      // 電気のスイッチ
     var mezamasiSprite:SKSpriteNode!    // 目覚まし
+    var gokiSprite:SKSpriteNode!
     
     // check
     var gameNow = true                  // ゲーム中なら true
@@ -71,20 +72,44 @@ class GameScene: SKScene{
         denkiOff()
         
         //その他（実装中）
-        // goki
+        
         
         
         
         // 実装済みイベント
         //callMezamasi()
-        
+        //goki()
         
         // 実装予定イベント
-        
         // broken
         // lightStand
         // yuurei
         
+    }
+    
+    func goki(){
+        let x = decideDifficulty()
+        gokiSprite = SKSpriteNode(imageNamed: "goki")
+        gokiSprite.position = CGPoint(x: -100, y:  100)
+        gokiSprite.zPosition = 100
+        gokiSprite.setScale(CGFloat(Double(x) * 0.1 + 0.1))
+        let moveGoki = SKAction.move(to: CGPoint(x:frame.size.width + 100, y: 100) , duration: TimeInterval(x))
+        gokiSprite.run(moveGoki)
+        addChild(gokiSprite)
+    }
+    
+    func decideDifficulty() -> Int{
+        let difficult = difficulty()
+        switch difficult {
+        case 1:
+            return 4
+        case 2:
+            return 2
+        case 3:
+            return 1
+        default:
+            return 0
+        }
     }
     
 
@@ -108,8 +133,8 @@ class GameScene: SKScene{
         print("nowData:\(nowData)")
         if score > userDefaults.integer(forKey: "BEST") {
             userDefaults.set(score, forKey: "BEST")
+            userDefaults.synchronize()
         }
-        userDefaults.synchronize()
         scoreLabelNode.text = "Score : \(score)"
         bestScoreLabelNode.text = "Best : \(userDefaults.integer(forKey: "BEST"))"
         
@@ -119,7 +144,9 @@ class GameScene: SKScene{
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view?.isMultipleTouchEnabled = true
 
+        
         for touch in touches {
+            let difficult = difficulty()
             let location = touch.location(in: self)
             let touchNodes = self.nodes(at: location)
             for tNode in touchNodes {
@@ -127,13 +154,17 @@ class GameScene: SKScene{
                     switchDenki()
                     denkiSeconds = 0
                 }
-                if tNode == mezamasiSprite {
+                if mezamasiSprite != nil && tNode == gokiSprite {
+                    gokiSprite.removeFromParent()
+                    score += difficult * 100
+                    scoreLabelNode.text = "Score : \(score)"
+                }
+                if  mezamasiSprite != nil && tNode == mezamasiSprite! {
                     mezamasiSprite.removeFromParent()
                     mezamasiTimer.invalidate()
                     mezamasiSeconds = 0
                     score += 100
                     scoreLabelNode.text = "Score : \(score)"
-
                 }
             }
         }
