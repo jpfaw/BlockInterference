@@ -11,10 +11,12 @@ import SpriteKit
 
 class GameScene: SKScene {
     
-    //データの取り扱い
+/* ----- variable management zone ----- */
+    // important
     let userDefaults:UserDefaults = UserDefaults.standard
+    var remainingTime = 10               // イベント時間 通常60s
     
-    let scoreCategory: UInt32 = 1 << 0
+    let scoreCategory: UInt32 = 1 << 0  // 未実装
     var score = 0
     var scoreLabelNode:SKLabelNode!
     var bestScoreLabelNode:SKLabelNode!
@@ -32,14 +34,16 @@ class GameScene: SKScene {
     var gameNow = true                  // ゲーム中なら true
     var denkiCheck = false              // 電気がついてたら true
     
-    var remainingTime = 5
-    var timer = Timer()
-    var eventTimer = Timer()
-    var timerBehavior = false //未使用
-    
-    let magnification:CGFloat = 0.5
     
     
+    // timer
+    var timer = Timer()                 // ゲームの残り時間
+    var eventTimer = Timer()            // eventManagerへ毎秒アクセス
+    var timerBehavior = false           // 未使用
+    
+    let magnification:CGFloat = 0.5     // オブジェクトの倍率管理
+    
+/* ----- variable management zone fin ----- */
     
     
     override func didMove(to view: SKView) {
@@ -63,45 +67,6 @@ class GameScene: SKScene {
     }
     
 
-    func denkiOn(){
-        let denkiTexture = SKTexture(imageNamed: "light_on")
-        denkiTexture.filteringMode = SKTextureFilteringMode.nearest //画質荒い：動作早い
-        denkiSprite = SKSpriteNode(imageNamed: "light_on")
-        denkiSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height - 70)
-        denkiSprite.zPosition = 100
-        denkiSprite.setScale(1.5)
-        addChild(denkiSprite)
-        
-        let switchTexture = SKTexture(imageNamed: "switch_on")
-        switchTexture.filteringMode = SKTextureFilteringMode.nearest
-        switchSprite = SKSpriteNode(imageNamed: "switch_on")
-        switchSprite.position = CGPoint(x: 50, y: frame.size.height/2 - 60)
-        switchSprite.zPosition = 100
-        switchSprite.setScale(0.3)
-        addChild(switchSprite)
-    }
-    
-    func denkiOff(){
-        let denkiTexture = SKTexture(imageNamed: "light_off")
-        denkiTexture.filteringMode = SKTextureFilteringMode.nearest //画質荒い：動作早い
-        denkiSprite = SKSpriteNode(imageNamed: "light_off")
-        denkiSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height - 70)
-        denkiSprite.zPosition = 100
-        denkiSprite.setScale(1.5)
-        addChild(denkiSprite)
-        
-        let switchTexture = SKTexture(imageNamed: "switch_off")
-        switchTexture.filteringMode = SKTextureFilteringMode.nearest
-        switchSprite = SKSpriteNode(imageNamed: "switch_off")
-        switchSprite.position = CGPoint(x: 50, y: frame.size.height/2 - 60)
-        switchSprite.zPosition = 100
-        switchSprite.setScale(0.3)
-        addChild(switchSprite)    }
-
-    
-
-
-
     func eventManagement(){
         let difficult = difficulty()
         
@@ -123,10 +88,9 @@ class GameScene: SKScene {
         print("nowData:\(nowData)")
     }
     
+    // タッチイベント処理
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view?.isMultipleTouchEnabled = true
-        
-        // 一つの情報を取り出します
         for touch in touches {
             let location = touch.location(in: self)
             let touchNodes = self.nodes(at: location)
@@ -167,16 +131,14 @@ class GameScene: SKScene {
         morningSprite.zPosition = 97
         morningSprite.setScale(magnification)
         addChild(morningSprite)
+        
         //朝の窓
-
         windowSprite = SKSpriteNode(imageNamed: "window")
         windowSprite.position = CGPoint(x: frame.size.width/2 - 70, y: frame.size.height/2 + 100)
         windowSprite.zPosition = 98
         windowSprite.setScale(magnification)
         addChild(windowSprite)
     }
-    
-    
     
     func wakeupMan(){
         manSprite.removeFromParent()
@@ -186,6 +148,35 @@ class GameScene: SKScene {
         manSprite.zPosition = 100
         addChild(manSprite)
     }
+    
+    func denkiOn(){
+        denkiSprite = SKSpriteNode(imageNamed: "light_on")
+        denkiSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height - 70)
+        denkiSprite.zPosition = 100
+        denkiSprite.setScale(1.5)
+        addChild(denkiSprite)
+        
+        switchSprite = SKSpriteNode(imageNamed: "switch_on")
+        switchSprite.position = CGPoint(x: 50, y: frame.size.height/2 - 60)
+        switchSprite.zPosition = 100
+        switchSprite.setScale(0.3)
+        addChild(switchSprite)
+    }
+    
+    func denkiOff(){
+        denkiSprite = SKSpriteNode(imageNamed: "light_off")
+        denkiSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height - 70)
+        denkiSprite.zPosition = 100
+        denkiSprite.setScale(1.5)
+        addChild(denkiSprite)
+        
+        switchSprite = SKSpriteNode(imageNamed: "switch_off")
+        switchSprite.position = CGPoint(x: 50, y: frame.size.height/2 - 60)
+        switchSprite.zPosition = 100
+        switchSprite.setScale(0.3)
+        addChild(switchSprite)
+    }
+
     
 /* ----- Event Function Zone fin ----- */
 

@@ -23,7 +23,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IJi-Tp-dgn">
-                                <rect key="frame" x="46" y="533" width="74.5" height="34"/>
+                                <rect key="frame" x="26" y="533" width="101" height="34"/>
                                 <state key="normal" title="EASY">
                                     <color key="titleColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -32,8 +32,8 @@
                                     <segue destination="BHa-OF-SUE" kind="show" id="Pki-LD-kTb"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XnE-c1-uJf">
-                                <rect key="frame" x="150.5" y="533" width="74" height="34"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XnE-c1-uJf">
+                                <rect key="frame" x="137" y="533" width="101" height="34"/>
                                 <state key="normal" title="NORMAL">
                                     <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -43,7 +43,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FIi-dw-cLr">
-                                <rect key="frame" x="254.5" y="533" width="74.5" height="34"/>
+                                <rect key="frame" x="248" y="533" width="101" height="34"/>
                                 <state key="normal" title="HARD">
                                     <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -66,19 +66,19 @@
                         <constraints>
                             <constraint firstItem="e7X-p3-Bu2" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="118" id="038-4P-hnN"/>
                             <constraint firstItem="FIi-dw-cLr" firstAttribute="width" secondItem="IJi-Tp-dgn" secondAttribute="width" id="1mg-KG-2Ds"/>
-                            <constraint firstItem="IJi-Tp-dgn" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="30" id="Epa-eg-dh0"/>
-                            <constraint firstItem="XnE-c1-uJf" firstAttribute="leading" secondItem="IJi-Tp-dgn" secondAttribute="trailing" constant="30" id="Gje-Hw-c4x"/>
-                            <constraint firstItem="XnE-c1-uJf" firstAttribute="leading" secondItem="IJi-Tp-dgn" secondAttribute="trailing" constant="30" id="ITP-zq-wsz"/>
+                            <constraint firstItem="IJi-Tp-dgn" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="Epa-eg-dh0"/>
+                            <constraint firstItem="XnE-c1-uJf" firstAttribute="leading" secondItem="IJi-Tp-dgn" secondAttribute="trailing" constant="10" id="Gje-Hw-c4x"/>
+                            <constraint firstItem="XnE-c1-uJf" firstAttribute="leading" secondItem="IJi-Tp-dgn" secondAttribute="trailing" constant="10" id="ITP-zq-wsz"/>
                             <constraint firstItem="XnE-c1-uJf" firstAttribute="height" secondItem="IJi-Tp-dgn" secondAttribute="height" id="MAr-dm-dQl"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="IJi-Tp-dgn" secondAttribute="bottom" constant="100" id="OGj-HV-HJ4"/>
-                            <constraint firstItem="FIi-dw-cLr" firstAttribute="leading" secondItem="XnE-c1-uJf" secondAttribute="trailing" constant="30" id="RR6-wv-G7v"/>
+                            <constraint firstItem="FIi-dw-cLr" firstAttribute="leading" secondItem="XnE-c1-uJf" secondAttribute="trailing" constant="10" id="RR6-wv-G7v"/>
                             <constraint firstItem="e7X-p3-Bu2" firstAttribute="top" secondItem="XnE-c1-uJf" secondAttribute="bottom" constant="20" id="TVM-tw-oef"/>
                             <constraint firstItem="XnE-c1-uJf" firstAttribute="width" secondItem="IJi-Tp-dgn" secondAttribute="width" id="TXh-Uc-n5j"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="FIi-dw-cLr" secondAttribute="bottom" constant="100" id="XeE-QS-feq"/>
                             <constraint firstItem="FIi-dw-cLr" firstAttribute="height" secondItem="IJi-Tp-dgn" secondAttribute="height" id="bOv-Kw-6gd"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="XnE-c1-uJf" secondAttribute="bottom" constant="100" id="kAS-sd-6d3"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="FIi-dw-cLr" secondAttribute="trailing" constant="30" id="km5-hQ-HH8"/>
-                            <constraint firstItem="FIi-dw-cLr" firstAttribute="leading" secondItem="XnE-c1-uJf" secondAttribute="trailing" constant="30" id="rcR-c2-7RG"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="FIi-dw-cLr" secondAttribute="trailing" constant="10" id="km5-hQ-HH8"/>
+                            <constraint firstItem="FIi-dw-cLr" firstAttribute="leading" secondItem="XnE-c1-uJf" secondAttribute="trailing" constant="10" id="rcR-c2-7RG"/>
                         </constraints>
                     </view>
                     <connections>
