@@ -9,7 +9,7 @@
 import UIKit
 import SpriteKit
 
-class GameScene: SKScene {
+class GameScene: SKScene{
     
 /* ----- variable management zone ----- */
     // important
@@ -29,6 +29,7 @@ class GameScene: SKScene {
     var manSprite:SKSpriteNode!         // 寝てる人
     var denkiSprite:SKSpriteNode!       // 電気
     var switchSprite:SKSpriteNode!      // 電気のスイッチ
+    var mezamasiSprite:SKSpriteNode!    // 目覚まし
     
     // check
     var gameNow = true                  // ゲーム中なら true
@@ -41,10 +42,12 @@ class GameScene: SKScene {
     var timer = Timer()                 // ゲームの残り時間
     var eventTimer = Timer()            // eventManagerへ毎秒アクセス
     var denkiTimer = Timer()            // 電気が入ってから何秒経ったか計測
+    var mezamasiTimer = Timer()         // 目覚ましが鳴っている時間
     var timerBehavior = false           // 未使用
     
     let magnification:CGFloat = 0.5     // オブジェクトの倍率管理
     var denkiSeconds = 0                // 電気つけて経った時間
+    var mezamasiSeconds = 0             // 目覚まし鳴ってからの時間
     
 /* ----- variable management zone fin ----- */
     
@@ -63,9 +66,12 @@ class GameScene: SKScene {
         setupNightWindow()
         setupSleepingMan()
         
-        //その他（実装中）
+        // Initial set
         time() //time内でeventManagementを起動
         denkiOff()
+        
+        //その他（実装中）
+        callMezamasi()
         
     }
     
@@ -93,17 +99,57 @@ class GameScene: SKScene {
     // タッチイベント処理
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view?.isMultipleTouchEnabled = true
+
         for touch in touches {
             let location = touch.location(in: self)
             let touchNodes = self.nodes(at: location)
             for tNode in touchNodes {
-                if tNode == switchSprite{
+                if tNode == switchSprite {
                     switchDenki()
+                    denkiSeconds = 0
+                }
+                if tNode == mezamasiSprite {
+                    mezamasiSprite.removeFromParent()
+                    mezamasiTimer.invalidate()
+                    mezamasiSeconds = 0
                 }
             }
         }
     }
     
+    
+    func callMezamasi(){
+        let mezamasiTextureA = SKTexture(imageNamed: "mezamasi_1")
+        mezamasiTextureA.filteringMode = SKTextureFilteringMode.linear
+        let mezamasiTextureB = SKTexture(imageNamed: "mezamasi_2")
+        mezamasiTextureB.filteringMode = SKTextureFilteringMode.linear
+        
+        let texuresAnimation = SKAction.animate(with: [mezamasiTextureA, mezamasiTextureB],timePerFrame: 0.1)
+        let mezamasi = SKAction.repeatForever(texuresAnimation)
+        mezamasiSprite = SKSpriteNode(texture: mezamasiTextureA)
+        mezamasiSprite.position = CGPoint(x: frame.size.width - 70, y: frame.size.height/2 - 130)
+        mezamasiSprite.zPosition = 97
+        mezamasiSprite.setScale(0.3)
+        mezamasiSprite.run(mezamasi)
+        addChild(mezamasiSprite)
+        
+        mezamasiTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(mezamasiCount), userInfo: nil, repeats: true)
+    }
+    
+    func mezamasiCount(){
+        mezamasiSeconds += 1
+        print("mezamasiSeconds = \(mezamasiSeconds)")
+        
+        let difficult = difficulty()
+        if (difficult == 1 && mezamasiSeconds == 5) ||
+            (difficult == 2 && mezamasiSeconds == 3) ||
+            (difficult == 3 && mezamasiSeconds == 2) {
+            mezamasiTimer.invalidate()
+            gameNow = false
+            gameOver = true
+            gameOverAlert(type: 2)
+        }
+    }
 
 
     
@@ -116,7 +162,8 @@ class GameScene: SKScene {
         alert.title = "Game Over"
         
         switch type {
-        case 1: alert.message = "一定時間電気がついていた"
+        case 1: alert.message = "眩しくて起きた"
+        case 2: alert.message = "目覚ましで起きた"
         default: alert.message = "想定されていないエラー番号です"
         }
         
