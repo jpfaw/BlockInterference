@@ -30,7 +30,9 @@ class GameScene: SKScene{
     var denkiSprite:SKSpriteNode!       // 電気
     var switchSprite:SKSpriteNode!      // 電気のスイッチ
     var mezamasiSprite:SKSpriteNode!    // 目覚まし
-    var gokiSprite:SKSpriteNode!
+    var gokiSprite:SKSpriteNode!        // goki
+    var lightStandSprite:SKSpriteNode!   // 電気スタンド
+    var lightZoneSprite:SKSpriteNode!
     
     // check
     var gameNow = true                  // ゲーム中なら true
@@ -44,11 +46,13 @@ class GameScene: SKScene{
     var eventTimer = Timer()            // eventManagerへ毎秒アクセス
     var denkiTimer = Timer()            // 電気が入ってから何秒経ったか計測
     var mezamasiTimer = Timer()         // 目覚ましが鳴っている時間
+    var lightStandTimer = Timer()       // ライトスタンドがついている時間
     var timerBehavior = false           // 未使用
     
     let magnification:CGFloat = 0.5     // オブジェクトの倍率管理
     var denkiSeconds = 0                // 電気つけて経った時間
     var mezamasiSeconds = 0             // 目覚まし鳴ってからの時間
+    var standSecond = 0                 // 電気スタンドがついている時間
     
 /* ----- variable management zone fin ----- */
     
@@ -79,38 +83,17 @@ class GameScene: SKScene{
         // 実装済みイベント
         //callMezamasi()
         //goki()
+        //lightStand()
         
         // 実装予定イベント
         // broken
-        // lightStand
         // yuurei
         
     }
     
-    func goki(){
-        let x = decideDifficulty()
-        gokiSprite = SKSpriteNode(imageNamed: "goki")
-        gokiSprite.position = CGPoint(x: -100, y:  100)
-        gokiSprite.zPosition = 100
-        gokiSprite.setScale(CGFloat(Double(x) * 0.1 + 0.1))
-        let moveGoki = SKAction.move(to: CGPoint(x:frame.size.width + 100, y: 100) , duration: TimeInterval(x))
-        gokiSprite.run(moveGoki)
-        addChild(gokiSprite)
-    }
+
     
-    func decideDifficulty() -> Int{
-        let difficult = difficulty()
-        switch difficult {
-        case 1:
-            return 4
-        case 2:
-            return 2
-        case 3:
-            return 1
-        default:
-            return 0
-        }
-    }
+    
     
 
     func eventManagement(){
@@ -143,26 +126,36 @@ class GameScene: SKScene{
     // タッチイベント処理
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view?.isMultipleTouchEnabled = true
-
-        
         for touch in touches {
             let difficult = difficulty()
             let location = touch.location(in: self)
             let touchNodes = self.nodes(at: location)
             for tNode in touchNodes {
+                // 電気のスイッチ
                 if tNode == switchSprite {
                     switchDenki()
                     denkiSeconds = 0
                 }
-                if mezamasiSprite != nil && tNode == gokiSprite {
+                // ゴキブリ
+                if gokiSprite != nil && tNode == gokiSprite {
                     gokiSprite.removeFromParent()
                     score += difficult * 100
                     scoreLabelNode.text = "Score : \(score)"
                 }
-                if  mezamasiSprite != nil && tNode == mezamasiSprite! {
+                // 目覚まし時計
+                if mezamasiSprite != nil && tNode == mezamasiSprite {
                     mezamasiSprite.removeFromParent()
                     mezamasiTimer.invalidate()
                     mezamasiSeconds = 0
+                    score += 100
+                    scoreLabelNode.text = "Score : \(score)"
+                }
+                // 電気スタンド
+                if lightStandSprite != nil && tNode == lightStandSprite {
+                    lightStandSprite.removeFromParent()
+                    lightZoneSprite.removeFromParent()
+                    lightStandTimer.invalidate()
+                    standSecond = 0
                     score += 100
                     scoreLabelNode.text = "Score : \(score)"
                 }
@@ -170,6 +163,7 @@ class GameScene: SKScene{
         }
     }
     
+
     
 
 
@@ -314,6 +308,47 @@ class GameScene: SKScene{
             gameOverAlert(type: 2)
         }
     }
+    
+    func goki(){
+        let x = decideDifficulty()
+        gokiSprite = SKSpriteNode(imageNamed: "goki")
+        gokiSprite.position = CGPoint(x: -100, y:  100)
+        gokiSprite.zPosition = 100
+        gokiSprite.setScale(CGFloat(Double(x) * 0.1 + 0.1))
+        let moveGoki = SKAction.move(to: CGPoint(x:frame.size.width + 100, y: 100) , duration: TimeInterval(x))
+        gokiSprite.run(moveGoki)
+        addChild(gokiSprite)
+    }
+
+    func lightStand(){
+        lightStandSprite = SKSpriteNode(imageNamed: "stand")
+        lightStandSprite.position = CGPoint(x: frame.size.width/2 - 50, y:  frame.size.height/2)
+        lightStandSprite.zPosition = 100
+        lightStandSprite.setScale(magnification)
+        addChild(lightStandSprite)
+        lightZoneSprite = SKSpriteNode(imageNamed: "lightZone")
+        lightZoneSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height/2 - 100)
+        lightZoneSprite.zPosition = 80
+        lightZoneSprite.setScale(0.7)
+        addChild(lightZoneSprite)
+        lightStandTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(standTimer), userInfo: nil, repeats: true)
+    }
+    
+    func standTimer(){
+        standSecond += 1
+        print("denkiSeconds = \(standSecond)")
+        
+        let difficult = difficulty()
+        if (difficult == 1 && standSecond == 5) ||
+            (difficult == 2 && standSecond == 3) ||
+            (difficult == 3 && standSecond == 2) {
+            lightStandTimer.invalidate()
+            gameNow = false
+            gameOver = true
+            gameOverAlert(type: 1)
+        }
+        
+    }
 
     
 /* ----- Event Function Zone fin ----- */
@@ -323,6 +358,20 @@ class GameScene: SKScene{
 /* ----- Foundation Function zone -----*/
     func difficulty() -> Int{
         return userDefaults.integer(forKey: "DIFFICULT")
+    }
+    
+    func decideDifficulty() -> Int{
+        let difficult = difficulty()
+        switch difficult {
+        case 1:
+            return 4
+        case 2:
+            return 2
+        case 3:
+            return 1
+        default:
+            return 0
+        }
     }
     
     func time(){
