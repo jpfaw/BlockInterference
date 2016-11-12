@@ -64,7 +64,7 @@
                                 <color key="textColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rogo" translatesAutoresizingMaskIntoConstraints="NO" id="fUc-jS-m8v">
+                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rogo" translatesAutoresizingMaskIntoConstraints="NO" id="fUc-jS-m8v">
                                 <rect key="frame" x="20" y="70" width="335" height="150"/>
                             </imageView>
                         </subviews>
@@ -96,6 +96,7 @@
                     </view>
                     <connections>
                         <outlet property="HighScoreLabel" destination="e7X-p3-Bu2" id="VfH-T4-0ie"/>
+                        <outlet property="titleLogo" destination="fUc-jS-m8v" id="P4y-Jj-zhx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

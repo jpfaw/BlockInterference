@@ -32,6 +32,10 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         audioPlayer.stop()
     }
     @IBOutlet weak var HighScoreLabel: UILabel!
+    
+    @IBOutlet weak var titleLogo: UIImageView!
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +54,12 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         //ハイスコア
         let highScore = userDefaults.integer(forKey: "BEST")
         HighScoreLabel.text = "High Score：\(highScore)"
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            UIView.animate(withDuration: 3.0) { () -> Void in
+                self.titleLogo.alpha = 1.0
+            }
+        }
 
     }
 
