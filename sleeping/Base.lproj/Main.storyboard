@@ -64,6 +64,9 @@
                                 <color key="textColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rogo" translatesAutoresizingMaskIntoConstraints="NO" id="fUc-jS-m8v">
+                                <rect key="frame" x="20" y="70" width="335" height="150"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -76,6 +79,7 @@
                             <constraint firstItem="XnE-c1-uJf" firstAttribute="leading" secondItem="IJi-Tp-dgn" secondAttribute="trailing" constant="10" id="ITP-zq-wsz"/>
                             <constraint firstItem="XnE-c1-uJf" firstAttribute="height" secondItem="IJi-Tp-dgn" secondAttribute="height" id="MAr-dm-dQl"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="IJi-Tp-dgn" secondAttribute="bottom" constant="100" id="OGj-HV-HJ4"/>
+                            <constraint firstItem="fUc-jS-m8v" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="50" id="P1n-qd-dbx"/>
                             <constraint firstItem="FIi-dw-cLr" firstAttribute="leading" secondItem="XnE-c1-uJf" secondAttribute="trailing" constant="10" id="RR6-wv-G7v"/>
                             <constraint firstItem="e7X-p3-Bu2" firstAttribute="top" secondItem="XnE-c1-uJf" secondAttribute="bottom" constant="20" id="TVM-tw-oef"/>
                             <constraint firstItem="XnE-c1-uJf" firstAttribute="width" secondItem="IJi-Tp-dgn" secondAttribute="width" id="TXh-Uc-n5j"/>
@@ -83,7 +87,9 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="FIi-dw-cLr" secondAttribute="bottom" constant="100" id="XeE-QS-feq"/>
                             <constraint firstItem="FIi-dw-cLr" firstAttribute="height" secondItem="IJi-Tp-dgn" secondAttribute="height" id="bOv-Kw-6gd"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="XnE-c1-uJf" secondAttribute="bottom" constant="100" id="kAS-sd-6d3"/>
+                            <constraint firstItem="fUc-jS-m8v" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="kFl-T7-hHR"/>
                             <constraint firstAttribute="trailingMargin" secondItem="FIi-dw-cLr" secondAttribute="trailing" constant="10" id="km5-hQ-HH8"/>
+                            <constraint firstAttribute="trailing" secondItem="fUc-jS-m8v" secondAttribute="trailing" constant="20" id="ng4-gM-5XF"/>
                             <constraint firstItem="BJA-Jt-iy8" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="pNF-Y0-Eef"/>
                             <constraint firstItem="FIi-dw-cLr" firstAttribute="leading" secondItem="XnE-c1-uJf" secondAttribute="trailing" constant="10" id="rcR-c2-7RG"/>
                         </constraints>
@@ -298,6 +304,7 @@
     <resources>
         <image name="hosizora" width="375" height="667"/>
         <image name="nobi" width="339" height="400"/>
+        <image name="rogo" width="320" height="150"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="qgX-tZ-OdG"/>
