@@ -9,8 +9,13 @@
 import UIKit
 import SpriteKit
 
+protocol GameSceneDelegate {
+    func gameAlert(message : String)
+    func translate()
+}
+
 class GameScene: SKScene{
-    
+    var gameSceneDelegate: GameSceneDelegate!
     
     
 /* ----- variable management zone ----- */
@@ -105,9 +110,6 @@ class GameScene: SKScene{
     }
     
 
-    
-    
-    
 
     func eventManagement(){
         let difficult = difficulty()
@@ -183,25 +185,19 @@ class GameScene: SKScene{
     
 
     
-
-
-    
     func gameOverAlert(type: Int){
         timer.invalidate()
         eventTimer.invalidate()
         
-        let alert = UIAlertView()
-        alert.title = "Game Over"
-        
+        var message = "x"
         switch type {
-        case 1: alert.message = "眩しくて起きた"
-        case 2: alert.message = "目覚ましで起きた"
-        case 3: alert.message = "ガラスが割れた音で起きた"
-        default: alert.message = "想定されていないエラー番号です"
+        case 1: message = "眩しくて起きた"
+        case 2: message = "目覚ましで起きた"
+        case 3: message = "ガラスが割れた音で起きた"
+        default: message = "想定されていないエラー番号です"
         }
         
-        alert.addButton(withTitle: "OK")
-        alert.show()
+        gameSceneDelegate.gameAlert(message: message)
     }
     
     

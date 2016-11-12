@@ -9,7 +9,7 @@
 import UIKit
 import SpriteKit
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, GameSceneDelegate {
     
     var difficult:Int = 0
     override func viewDidLoad() {
@@ -19,6 +19,7 @@ class GameViewController: UIViewController {
         skView.showsFPS = true
         skView.showsNodeCount = true
         let scene = GameScene(size: skView.frame.size)
+        scene.gameSceneDelegate = self
         skView.presentScene(scene)
     }
     
@@ -31,6 +32,20 @@ class GameViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
-
+    //@Delegate
+    func translate() {
+        
+    }
+    //@Delegate
+    func gameAlert(message: String) {
+        
+        let alertController = UIAlertController(title: "Game Over", message: message, preferredStyle: .alert)
+        let otherAction = UIAlertAction(title: "はい", style: .default) {
+            action in NSLog("はいボタンが押されました")
+        }
+        alertController.addAction(otherAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
 }
 
