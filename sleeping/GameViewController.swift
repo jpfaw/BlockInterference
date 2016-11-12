@@ -68,6 +68,11 @@ class GameViewController: UIViewController, GameSceneDelegate {
             self.transition()
         }
     }
+    func returnTitle(){
+        let targetViewController = self.storyboard!.instantiateViewController(withIdentifier: "Title")
+        self.present(targetViewController, animated: true, completion: nil)
+
+    }
     
 }
 

@@ -8,15 +8,16 @@
 
 import UIKit
 import SpriteKit
+import AVFoundation
 
 protocol GameSceneDelegate {
     func gameAlert(message : String)
     func dataSend(Score: Int, Clear: Int)
+    func returnTitle()
 }
 
 class GameScene: SKScene{
     var gameSceneDelegate: GameSceneDelegate!
-    
     
 /* ----- variable management zone ----- */
     // important
@@ -26,10 +27,11 @@ class GameScene: SKScene{
     var score = 0
     var scoreLabelNode:SKLabelNode!
     var bestScoreLabelNode:SKLabelNode!
-    var TitleBackLabel:SKLabelNode!
+    var titleBackLabel:SKLabelNode!
     var timeLabel:SKLabelNode!
     
     // Item SpriteNode
+    var titleBackSprite:SKSpriteNode!   //タイトルの背景
     var landscapeSprite:SKSpriteNode!   // 風景
     var windowSprite:SKSpriteNode!      // 窓枠
     var manSprite:SKSpriteNode!         // 寝てる人
@@ -61,6 +63,12 @@ class GameScene: SKScene{
     var standSecond = 0                 // 電気スタンドがついている時間
     var ballSecond = 0                  // ボール飛来時間管理
     
+    // music
+    let BGM = SKAudioNode.init(fileNamed: "BGM.mp3")
+    let chicken = SKAudioNode.init(fileNamed: "chicken.mp3")
+    let mezamasiAudio = SKAudioNode.init(fileNamed: "mezamasi.mp3")
+    
+    
 /* ----- variable management zone fin ----- */
     
     
@@ -75,6 +83,7 @@ class GameScene: SKScene{
         // setup
         let difficult = decideDifficulty()
         physicsWorld.gravity = CGVector(dx: Double(5 - difficult)*0.07, dy: Double(5 - difficult)*(-0.05))
+        self.addChild(BGM)
         
         // setup function
         setupScoreLabel()
@@ -110,6 +119,8 @@ class GameScene: SKScene{
         switch nowData {
         case (_,55):
             break
+        case (_, 7):
+            callMezamasi()
         case (_,0):
             morning()
             wakeupMan()
@@ -152,6 +163,7 @@ class GameScene: SKScene{
                 if mezamasiSprite != nil && tNode == mezamasiSprite {
                     mezamasiSprite.removeFromParent()
                     mezamasiTimer.invalidate()
+                    mezamasiAudio.removeFromParent()
                     mezamasiSeconds = 0
                     score += 100
                 }
@@ -170,6 +182,13 @@ class GameScene: SKScene{
                     ballSecond = 0
                     score += 200 + difficult * 10
                 }
+                // titleに戻る
+                if tNode == titleBackSprite {
+                    timer.invalidate()
+                    eventTimer.invalidate()
+                    BGM.removeFromParent()
+                    gameSceneDelegate.returnTitle()
+                }
                 scoreLabelNode.text = "Score : \(score)"
             }
         }
@@ -180,6 +199,7 @@ class GameScene: SKScene{
     func gameOverAlert(type: Int){
         timer.invalidate()
         eventTimer.invalidate()
+        BGM.removeFromParent()
 
         var message:String
         switch type {
@@ -288,6 +308,7 @@ class GameScene: SKScene{
         mezamasiSprite.setScale(0.3)
         mezamasiSprite.run(mezamasi)
         addChild(mezamasiSprite)
+        addChild(mezamasiAudio)
         
         mezamasiTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(mezamasiCount), userInfo: nil, repeats: true)
     }
@@ -301,6 +322,7 @@ class GameScene: SKScene{
             (difficult == 2 && mezamasiSeconds == 3) ||
             (difficult == 3 && mezamasiSeconds == 2) {
             mezamasiTimer.invalidate()
+            mezamasiAudio.removeFromParent()
             gameOverAlert(type: 2)
         }
     }
@@ -414,17 +436,26 @@ class GameScene: SKScene{
     
     func countdownTimer(){
         remainingTime -= 1
-        score += 1
         if remainingTime == 0{
             gameClear = true
+            BGM.removeFromParent()
+            chicken.autoplayLooped = false
+            let playAction = SKAction.play()
+            chicken.run(playAction)
+            self.addChild(chicken)
         }
         if remainingTime == -5 {
             timer.invalidate()
+            chicken.removeFromParent()
+            removeAllActions()
+            removeAllChildren()
             gameSceneDelegate.dataSend(Score: score, Clear: gameFinish())
         }
         if(remainingTime >= 0){
+            score += 1
             timeLabel.text = "残り時間：\(remainingTime)秒"
         }
+        scoreLabelNode.text = "Score : \(score)"
     }
     
     func gameFinish() -> Int {
@@ -474,12 +505,12 @@ class GameScene: SKScene{
     
     func setupTitleBackLabel(){
         // 背景の設定
-        let titleBackSprite = SKSpriteNode(color: UIColor.cyan , size: CGSize(width: 150, height: 30))
+        titleBackSprite = SKSpriteNode(color: UIColor.cyan , size: CGSize(width: 150, height: 30))
         titleBackSprite.position = CGPoint(x: frame.size.width - 80, y: frame.size.height - 48)
         titleBackSprite.zPosition = 99
         addChild(titleBackSprite)
         
-        let titleBackLabel = SKLabelNode()
+        titleBackLabel = SKLabelNode()
         titleBackLabel.fontColor = UIColor.black
         titleBackLabel.alpha = 1
         titleBackLabel.position = CGPoint(x: frame.size.width - 80, y: frame.size.height - 60)

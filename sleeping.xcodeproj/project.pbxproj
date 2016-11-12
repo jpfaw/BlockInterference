@@ -12,6 +12,11 @@
 		D62B515F1DCB6FA0000CA560 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62B515E1DCB6FA0000CA560 /* GameScene.swift */; };
 		D62B51611DCB8AFC000CA560 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62B51601DCB8AFC000CA560 /* GameViewController.swift */; };
 		D62B51631DCB8B03000CA560 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62B51621DCB8B03000CA560 /* ResultViewController.swift */; };
+		D6556F5F1DD6D4F70060631C /* BGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6556F5E1DD6D4F70060631C /* BGM.mp3 */; };
+		D6556F611DD6D63E0060631C /* chicken.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6556F601DD6D63E0060631C /* chicken.mp3 */; };
+		D6556F651DD6E3B30060631C /* mezamasi.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6556F631DD6E3B30060631C /* mezamasi.mp3 */; };
+		D6556F681DD6EE290060631C /* op.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6556F671DD6EE290060631C /* op.mp3 */; };
+		D6556F6A1DD6F5EF0060631C /* result.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6556F691DD6F5EF0060631C /* result.mp3 */; };
 		D6870F0B1DBB46C5001A5CA8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6870F0A1DBB46C5001A5CA8 /* AppDelegate.swift */; };
 		D6870F0D1DBB46C5001A5CA8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6870F0C1DBB46C5001A5CA8 /* ViewController.swift */; };
 		D6870F101DBB46C5001A5CA8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6870F0E1DBB46C5001A5CA8 /* Main.storyboard */; };
@@ -24,6 +29,11 @@
 		D62B515E1DCB6FA0000CA560 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		D62B51601DCB8AFC000CA560 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		D62B51621DCB8B03000CA560 /* ResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
+		D6556F5E1DD6D4F70060631C /* BGM.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = BGM.mp3; path = ../BGM.mp3; sourceTree = "<group>"; };
+		D6556F601DD6D63E0060631C /* chicken.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = chicken.mp3; path = ../chicken.mp3; sourceTree = "<group>"; };
+		D6556F631DD6E3B30060631C /* mezamasi.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = mezamasi.mp3; sourceTree = "<group>"; };
+		D6556F671DD6EE290060631C /* op.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = op.mp3; sourceTree = "<group>"; };
+		D6556F691DD6F5EF0060631C /* result.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = result.mp3; sourceTree = "<group>"; };
 		D6870F071DBB46C5001A5CA8 /* sleeping.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sleeping.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6870F0A1DBB46C5001A5CA8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D6870F0C1DBB46C5001A5CA8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -52,6 +62,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D6556F621DD6D66A0060631C /* music */ = {
+			isa = PBXGroup;
+			children = (
+				D6556F5E1DD6D4F70060631C /* BGM.mp3 */,
+				D6556F601DD6D63E0060631C /* chicken.mp3 */,
+				D6556F631DD6E3B30060631C /* mezamasi.mp3 */,
+				D6556F691DD6F5EF0060631C /* result.mp3 */,
+				D6556F671DD6EE290060631C /* op.mp3 */,
+			);
+			path = music;
+			sourceTree = "<group>";
+		};
 		D6870EFE1DBB46C5001A5CA8 = {
 			isa = PBXGroup;
 			children = (
@@ -77,6 +99,7 @@
 				D62B51601DCB8AFC000CA560 /* GameViewController.swift */,
 				D62B515E1DCB6FA0000CA560 /* GameScene.swift */,
 				D62B51621DCB8B03000CA560 /* ResultViewController.swift */,
+				D6556F621DD6D66A0060631C /* music */,
 				D6870F0E1DBB46C5001A5CA8 /* Main.storyboard */,
 				D62B51521DCB5866000CA560 /* Assets.xcassets */,
 				D6870F131DBB46C5001A5CA8 /* LaunchScreen.storyboard */,
@@ -146,7 +169,12 @@
 			files = (
 				D6870F151DBB46C5001A5CA8 /* LaunchScreen.storyboard in Resources */,
 				D62B51531DCB5866000CA560 /* Assets.xcassets in Resources */,
+				D6556F681DD6EE290060631C /* op.mp3 in Resources */,
 				D6870F101DBB46C5001A5CA8 /* Main.storyboard in Resources */,
+				D6556F6A1DD6F5EF0060631C /* result.mp3 in Resources */,
+				D6556F5F1DD6D4F70060631C /* BGM.mp3 in Resources */,
+				D6556F611DD6D63E0060631C /* chicken.mp3 in Resources */,
+				D6556F651DD6E3B30060631C /* mezamasi.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
