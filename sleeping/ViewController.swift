@@ -39,10 +39,7 @@ class ViewController: UIViewController {
         //ハイスコア
         let highScore = userDefaults.integer(forKey: "BEST")
         HighScoreLabel.text = "High Score：\(highScore)"
-        
-        //更新されてた時用メモ
-//        userDefaults.setInteger(bestScore, forKey: "BEST")
-//        userDefaults.synchronize()
+
         
 
 
@@ -51,12 +48,6 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    //難易度を渡す
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let gameViewController:GameViewController = segue.destination as! GameViewController
-        gameViewController.difficult = difficult
     }
 
     //status barの削除

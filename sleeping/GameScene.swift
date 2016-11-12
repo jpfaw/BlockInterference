@@ -11,6 +11,7 @@ import SpriteKit
 
 protocol GameSceneDelegate {
     func gameAlert(message : String)
+    func dataSend(Score: Int, Clear: Int)
 }
 
 class GameScene: SKScene{
@@ -20,9 +21,8 @@ class GameScene: SKScene{
 /* ----- variable management zone ----- */
     // important
     let userDefaults:UserDefaults = UserDefaults.standard
-    var remainingTime = 10               // イベント時間 通常60s
+    var remainingTime = 10              // イベント時間 通常60s
     
-    let scoreCategory: UInt32 = 1 << 0  // 未実装
     var score = 0
     var scoreLabelNode:SKLabelNode!
     var bestScoreLabelNode:SKLabelNode!
@@ -30,8 +30,7 @@ class GameScene: SKScene{
     var timeLabel:SKLabelNode!
     
     // Item SpriteNode
-    //var nightSprite:SKSpriteNode!       // 夜の背景
-    var landscapeSprite:SKSpriteNode!         // 風景
+    var landscapeSprite:SKSpriteNode!   // 風景
     var windowSprite:SKSpriteNode!      // 窓枠
     var manSprite:SKSpriteNode!         // 寝てる人
     var denkiSprite:SKSpriteNode!       // 電気
@@ -46,8 +45,6 @@ class GameScene: SKScene{
     var denkiCheck = false              // 電気がついてたら true
     var gameOver = false                // gameOver なら true
     var gameClear = false               // クリアしたら true
-    
-    
     
     // timer
     var timer = Timer()                 // ゲームの残り時間
@@ -87,12 +84,10 @@ class GameScene: SKScene{
         setupSleepingMan()
         
         // Initial set
-        //time() //time内でeventManagementを起動
+        time() //time内でeventManagementを起動
         denkiOff()
         
         //その他（実装中）
-        
-        
         
         
         // 実装済みイベント
@@ -102,7 +97,6 @@ class GameScene: SKScene{
         //broken()
         
         // 実装予定イベント
-        
         // yuurei
         
     }
@@ -186,19 +180,20 @@ class GameScene: SKScene{
     func gameOverAlert(type: Int){
         timer.invalidate()
         eventTimer.invalidate()
-        
-        var message = "x"
+
+        var message:String
         switch type {
         case 1: message = "眩しくて起きた"
         case 2: message = "目覚ましで起きた"
         case 3: message = "ガラスが割れた音で起きた"
         default: message = "想定されていないエラー番号です"
         }
-        
         gameOver = true
-        
         gameSceneDelegate.gameAlert(message: message)
+        gameSceneDelegate.dataSend(Score: score, Clear: gameFinish())
     }
+    
+
     
     
 /* ----- Event Function Zone ----- */
@@ -377,10 +372,8 @@ class GameScene: SKScene{
             ballSprite.removeFromParent()
             gameOverAlert(type: 3)
         }
-        
     }
 
-    
 /* ----- Event Function Zone fin ----- */
 
     
@@ -425,11 +418,24 @@ class GameScene: SKScene{
         if remainingTime == 0{
             gameClear = true
         }
-        if remainingTime == -10 {
+        if remainingTime == -5 {
             timer.invalidate()
+            gameSceneDelegate.dataSend(Score: score, Clear: gameFinish())
         }
         if(remainingTime >= 0){
             timeLabel.text = "残り時間：\(remainingTime)秒"
+        }
+    }
+    
+    func gameFinish() -> Int {
+        if gameOver == true {
+            return 1
+        }
+        else if gameClear == true {
+            return 2
+        }
+        else {
+            return 0
         }
     }
     

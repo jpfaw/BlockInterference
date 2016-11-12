@@ -11,7 +11,10 @@ import SpriteKit
 
 class GameViewController: UIViewController, GameSceneDelegate {
     
-    var difficult:Int = 0
+    let userDefaults:UserDefaults = UserDefaults.standard
+    var score:Int = 0
+    var clear:Int = 0
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,10 +46,27 @@ class GameViewController: UIViewController, GameSceneDelegate {
         present(alertController, animated: true, completion: nil)
     }
     
+    //resultに遷移
     func transition(){
+        userDefaults.set(score, forKey: "SCORE")
+        userDefaults.set(clear, forKey: "CLEAR")
+        userDefaults.synchronize()
         let targetViewController = self.storyboard!.instantiateViewController(withIdentifier: "Result")
         targetViewController.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
-        self.present( targetViewController, animated: true, completion: nil)
+        self.present(targetViewController, animated: true, completion: nil)
+    }
+    
+    //@Delegate
+    func dataSend(Score: Int, Clear: Int) {
+        let highScore = userDefaults.integer(forKey: "BEST")
+        if highScore < Score {
+            userDefaults.set(Score, forKey: "BEST")
+        }
+        self.score = Score
+        self.clear = Clear
+        if Clear == 2 {
+            self.transition()
+        }
     }
     
 }
