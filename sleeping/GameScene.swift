@@ -11,6 +11,8 @@ import SpriteKit
 
 class GameScene: SKScene{
     
+    
+    
 /* ----- variable management zone ----- */
     // important
     let userDefaults:UserDefaults = UserDefaults.standard
@@ -24,20 +26,23 @@ class GameScene: SKScene{
     var timeLabel:SKLabelNode!
     
     // Item SpriteNode
-    var nightSprite:SKSpriteNode!       // 夜の背景
+    //var nightSprite:SKSpriteNode!       // 夜の背景
+    var landscapeSprite:SKSpriteNode!         // 風景
     var windowSprite:SKSpriteNode!      // 窓枠
     var manSprite:SKSpriteNode!         // 寝てる人
     var denkiSprite:SKSpriteNode!       // 電気
     var switchSprite:SKSpriteNode!      // 電気のスイッチ
     var mezamasiSprite:SKSpriteNode!    // 目覚まし
     var gokiSprite:SKSpriteNode!        // goki
-    var lightStandSprite:SKSpriteNode!   // 電気スタンド
-    var lightZoneSprite:SKSpriteNode!
+    var lightStandSprite:SKSpriteNode!  // 電気スタンド
+    var lightZoneSprite:SKSpriteNode!   // 電気スタンドで明るい部分(白い丸の絵)
+    var ballSprite:SKSpriteNode!        // ボール
     
     // check
     var gameNow = true                  // ゲーム中なら true
     var denkiCheck = false              // 電気がついてたら true
     var gameOver = false
+    var brokenEvent = false             // broken Eventが行われていたら true
     
     
     
@@ -47,12 +52,14 @@ class GameScene: SKScene{
     var denkiTimer = Timer()            // 電気が入ってから何秒経ったか計測
     var mezamasiTimer = Timer()         // 目覚ましが鳴っている時間
     var lightStandTimer = Timer()       // ライトスタンドがついている時間
+    var ballTimer = Timer()             // ボール飛来
     var timerBehavior = false           // 未使用
     
     let magnification:CGFloat = 0.5     // オブジェクトの倍率管理
     var denkiSeconds = 0                // 電気つけて経った時間
     var mezamasiSeconds = 0             // 目覚まし鳴ってからの時間
     var standSecond = 0                 // 電気スタンドがついている時間
+    var ballSecond = 0                  // ボール飛来時間管理
     
 /* ----- variable management zone fin ----- */
     
@@ -64,6 +71,11 @@ class GameScene: SKScene{
          *
          */
         
+        
+        // setup
+        let difficult = decideDifficulty()
+        physicsWorld.gravity = CGVector(dx: Double(5 - difficult)*0.07, dy: Double(5 - difficult)*(-0.05))
+        
         // setup function
         setupScoreLabel()
         setupTitleBackLabel()
@@ -72,7 +84,7 @@ class GameScene: SKScene{
         setupSleepingMan()
         
         // Initial set
-        time() //time内でeventManagementを起動
+        //time() //time内でeventManagementを起動
         denkiOff()
         
         //その他（実装中）
@@ -84,9 +96,10 @@ class GameScene: SKScene{
         //callMezamasi()
         //goki()
         //lightStand()
+        //broken()
         
         // 実装予定イベント
-        // broken
+        
         // yuurei
         
     }
@@ -140,7 +153,6 @@ class GameScene: SKScene{
                 if gokiSprite != nil && tNode == gokiSprite {
                     gokiSprite.removeFromParent()
                     score += difficult * 100
-                    scoreLabelNode.text = "Score : \(score)"
                 }
                 // 目覚まし時計
                 if mezamasiSprite != nil && tNode == mezamasiSprite {
@@ -148,7 +160,6 @@ class GameScene: SKScene{
                     mezamasiTimer.invalidate()
                     mezamasiSeconds = 0
                     score += 100
-                    scoreLabelNode.text = "Score : \(score)"
                 }
                 // 電気スタンド
                 if lightStandSprite != nil && tNode == lightStandSprite {
@@ -157,8 +168,15 @@ class GameScene: SKScene{
                     lightStandTimer.invalidate()
                     standSecond = 0
                     score += 100
-                    scoreLabelNode.text = "Score : \(score)"
                 }
+                // broken
+                if ballSprite != nil && tNode == ballSprite {
+                    ballSprite.removeFromParent()
+                    ballTimer.invalidate()
+                    ballSecond = 0
+                    score += 200 + difficult * 10
+                }
+                scoreLabelNode.text = "Score : \(score)"
             }
         }
     }
@@ -178,6 +196,7 @@ class GameScene: SKScene{
         switch type {
         case 1: alert.message = "眩しくて起きた"
         case 2: alert.message = "目覚ましで起きた"
+        case 3: alert.message = "ガラスが割れた音で起きた"
         default: alert.message = "想定されていないエラー番号です"
         }
         
@@ -190,20 +209,14 @@ class GameScene: SKScene{
     func morning(){
         backgroundColor = UIColor(colorLiteralRed: 1, green: 1, blue: 1, alpha: 1)
 
-        nightSprite.removeFromParent()
+        landscapeSprite.removeFromParent()
         //朝の風景
-        let morningSprite = SKSpriteNode(imageNamed: "asa")
-        morningSprite.position = CGPoint(x: frame.size.width/2 - 70, y: frame.size.height/2 + 100)
-        morningSprite.zPosition = 97
-        morningSprite.setScale(magnification)
-        addChild(morningSprite)
-        
-        //朝の窓
-        windowSprite = SKSpriteNode(imageNamed: "window")
-        windowSprite.position = CGPoint(x: frame.size.width/2 - 70, y: frame.size.height/2 + 100)
-        windowSprite.zPosition = 98
-        windowSprite.setScale(magnification)
-        addChild(windowSprite)
+        landscapeSprite = SKSpriteNode(imageNamed: "asa")
+        landscapeSprite.position = CGPoint(x: frame.size.width/2 - 70, y: frame.size.height/2 + 100)
+        landscapeSprite.zPosition = 97
+        landscapeSprite.setScale(magnification)
+        addChild(landscapeSprite)
+
     }
     
     func wakeupMan(){
@@ -218,7 +231,7 @@ class GameScene: SKScene{
     func denkiOn(){
         denkiSprite = SKSpriteNode(imageNamed: "light_on")
         denkiSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height - 70)
-        denkiSprite.zPosition = 100
+        denkiSprite.zPosition = -10
         denkiSprite.setScale(1.5)
         addChild(denkiSprite)
         
@@ -232,7 +245,7 @@ class GameScene: SKScene{
     func denkiOff(){
         denkiSprite = SKSpriteNode(imageNamed: "light_off")
         denkiSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height - 70)
-        denkiSprite.zPosition = 100
+        denkiSprite.zPosition = -10
         denkiSprite.setScale(1.5)
         addChild(denkiSprite)
         
@@ -278,10 +291,7 @@ class GameScene: SKScene{
     
     func callMezamasi(){
         let mezamasiTextureA = SKTexture(imageNamed: "mezamasi_1")
-        mezamasiTextureA.filteringMode = SKTextureFilteringMode.linear
         let mezamasiTextureB = SKTexture(imageNamed: "mezamasi_2")
-        mezamasiTextureB.filteringMode = SKTextureFilteringMode.linear
-        
         let texuresAnimation = SKAction.animate(with: [mezamasiTextureA, mezamasiTextureB],timePerFrame: 0.1)
         let mezamasi = SKAction.repeatForever(texuresAnimation)
         mezamasiSprite = SKSpriteNode(texture: mezamasiTextureA)
@@ -349,6 +359,38 @@ class GameScene: SKScene{
         }
         
     }
+    
+    func broken(){
+        brokenEvent = true
+        let x = decideDifficulty()
+        ballSprite = SKSpriteNode(imageNamed: "ball")
+        ballSprite.position = CGPoint(x: frame.size.width/2 - 120, y: frame.size.height/2 + 130)
+        ballSprite.zPosition = 95
+        ballSprite.setScale(0.01)
+        
+        // ballの動き
+        let scaleFluctuationBall = SKAction.scale(to: 0.12, duration: TimeInterval(x))
+        ballSprite.physicsBody = SKPhysicsBody(circleOfRadius: 1)
+        ballSprite.run(scaleFluctuationBall)
+        addChild(ballSprite)
+        
+        ballTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(comeBallTimer), userInfo: nil, repeats: true)
+    }
+    
+    func comeBallTimer(){
+        ballSecond += 1
+        if ballSecond == decideDifficulty() {
+            windowSprite.removeFromParent()
+            windowSprite = SKSpriteNode(imageNamed: "window_broken")
+            windowSprite.position = CGPoint(x: frame.size.width/2 - 70, y: frame.size.height/2 + 100)
+            windowSprite.zPosition = 98
+            windowSprite.setScale(0.42)
+            addChild(windowSprite)
+            ballSprite.removeFromParent()
+            gameOverAlert(type: 3)
+        }
+        
+    }
 
     
 /* ----- Event Function Zone fin ----- */
@@ -409,9 +451,7 @@ class GameScene: SKScene{
     
 /* ----- Setup Function zone ----- */
     func setupSleepingMan(){
-        let manTexture = SKTexture(imageNamed: "bed_boy_sleep")
-        manTexture.filteringMode = SKTextureFilteringMode.nearest //画質荒い：動作早い
-        manSprite = SKSpriteNode(texture: manTexture)
+        manSprite = SKSpriteNode(imageNamed: "bed_boy_sleep")
         manSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height/2 - 100)
         manSprite.setScale(magnification)
         manSprite.zPosition = 100
@@ -485,13 +525,18 @@ class GameScene: SKScene{
         backgroundColor = UIColor(colorLiteralRed: 0.7, green: 0.7, blue: 0.7, alpha: 1)
         
         //夜の風景
-        let nightTexture = SKTexture(imageNamed: "yoru")
-        nightTexture.filteringMode = SKTextureFilteringMode.nearest
-        nightSprite = SKSpriteNode(texture: nightTexture)
-        nightSprite.position = CGPoint(x: frame.size.width/2 - 70, y: frame.size.height/2 + 100)
-        nightSprite.zPosition = 96
-        nightSprite.setScale(magnification)
-        addChild(nightSprite)
+        landscapeSprite = SKSpriteNode(imageNamed: "yoru")
+        landscapeSprite.position = CGPoint(x: frame.size.width/2 - 70, y: frame.size.height/2 + 100)
+        landscapeSprite.zPosition = 90
+        landscapeSprite.setScale(magnification)
+        addChild(landscapeSprite)
+        
+        // 窓
+        windowSprite = SKSpriteNode(imageNamed: "window")
+        windowSprite.position = CGPoint(x: frame.size.width/2 - 70, y: frame.size.height/2 + 100)
+        windowSprite.zPosition = 98
+        windowSprite.setScale(magnification)
+        addChild(windowSprite)
     }
     
 /* ----- setup function zone fin ----- */
