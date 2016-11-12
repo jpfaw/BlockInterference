@@ -22,7 +22,7 @@ class GameScene: SKScene{
 /* ----- variable management zone ----- */
     // important
     let userDefaults:UserDefaults = UserDefaults.standard
-    var remainingTime = 10              // イベント時間 通常60s
+    var remainingTime = 30              // イベント時間
     
     var score = 0
     var scoreLabelNode:SKLabelNode!
@@ -31,6 +31,8 @@ class GameScene: SKScene{
     var timeLabel:SKLabelNode!
     
     // Item SpriteNode
+    var bgSprite:SKSpriteNode!
+    var bgYSprite:SKSpriteNode!
     var titleBackSprite:SKSpriteNode!   //タイトルの背景
     var landscapeSprite:SKSpriteNode!   // 風景
     var windowSprite:SKSpriteNode!      // 窓枠
@@ -122,6 +124,20 @@ class GameScene: SKScene{
         // 実装予定イベント
         // yuurei
         
+
+        bgSprite = SKSpriteNode(imageNamed: "roomBG")
+        bgSprite.position = CGPoint(x: 0, y: size.height)
+        bgSprite.zPosition = -20
+        bgSprite.setScale(4.5)
+        bgSprite.alpha = 0.5
+        addChild(bgSprite)
+        
+        bgYSprite = SKSpriteNode(imageNamed: "roomYuka")
+        bgYSprite.position = CGPoint(x: 0, y: size.height / 3)
+        bgYSprite.zPosition = -30
+        bgYSprite.setScale(5)
+        bgYSprite.alpha = 0.5
+        addChild(bgYSprite)
     }
     
 
@@ -129,21 +145,27 @@ class GameScene: SKScene{
     func eventManagement(){
         let difficult = difficulty()
         let nowData = (difficult, remainingTime)
+        var random = decideRandom(min: 1, max: 7)
+        if random == 6 || random == 7 {
+            random = decideRandom(min: 1, max: 9)
+        }
         
-        switch nowData {
-        case (_,55):
-            break
-        case (_, 7):
-            broken()
-        case (_,0):
+        if remainingTime == 0{
             morning()
             wakeupMan()
             eventTimer.invalidate()
-        default:
-            //print("occured eventManagement function Switch case default")
-            break
+            bgSprite.alpha = 1
+            bgYSprite.alpha = 1
+        }else{
+            if difficult == 1 && remainingTime % 5 == 0 {
+                eventOccur(type: random)
+            }else if difficult == 2 && remainingTime % 4 == 0 {
+                eventOccur(type: random)
+            }else if difficult == 3 && remainingTime % 2 == 0 {
+                eventOccur(type: random)
+            }
         }
-        
+
         // その他イベント
         print("nowData:\(nowData)")
         if score > userDefaults.integer(forKey: "BEST") {
@@ -153,6 +175,23 @@ class GameScene: SKScene{
         scoreLabelNode.text = "Score : \(score)"
         bestScoreLabelNode.text = "Best : \(userDefaults.integer(forKey: "BEST"))"
         
+    }
+    
+    func eventOccur(type :Int){
+        switch type {
+        case 1:
+            callMezamasi()
+        case 2:
+            goki()
+        case 3:
+            lightStand()
+        case 4:
+            broken()
+        case 5:
+            switchDenki()
+        default:
+            print("event default")
+        }
     }
     
     // タッチイベント処理
@@ -313,9 +352,7 @@ class GameScene: SKScene{
             denkiSprite.removeFromParent()
             if denkiCheck == false {
                 denkiOn()
-                
                 backgroundColor = UIColor(colorLiteralRed: 1, green: 1, blue: 1, alpha: 1)
-                
                 denkiTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(denkiCount), userInfo: nil, repeats: true)
                 denkiCheck = true
             }else{
@@ -546,6 +583,17 @@ class GameScene: SKScene{
             return 2
         }
         else {
+            return 0
+        }
+    }
+    
+    func decideRandom(min: Int, max: Int) -> Int {
+        if min < max {
+            let diff = max - min + 1
+            let random : Int = Int(arc4random_uniform(UInt32(diff)))
+            return random + min
+        }else {
+            print("error")
             return 0
         }
     }

@@ -44,7 +44,7 @@ class ResultViewController: UIViewController, AVAudioPlayerDelegate {
         
         
         let difficult = userDefaults.integer(forKey: "DIFFICULT")
-        let highscore = userDefaults.integer(forKey: "BEST")
+        var highscore = userDefaults.integer(forKey: "BEST")
         let score = userDefaults.integer(forKey: "SCORE")
         let clear = userDefaults.integer(forKey: "CLEAR")
         var clearbonus = 0
@@ -56,6 +56,8 @@ class ResultViewController: UIViewController, AVAudioPlayerDelegate {
         if highscore < total {
             userDefaults.set(total, forKey: "BEST")
             userDefaults.synchronize()
+            highscore = total
+            highScore.textColor = UIColor(red: 1, green: 0, blue: 0, alpha: 1)
         }
         
         if clear == 1 {
