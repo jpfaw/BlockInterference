@@ -11,7 +11,6 @@ import SpriteKit
 
 protocol GameSceneDelegate {
     func gameAlert(message : String)
-    func translate()
 }
 
 class GameScene: SKScene{
@@ -44,10 +43,9 @@ class GameScene: SKScene{
     var ballSprite:SKSpriteNode!        // ボール
     
     // check
-    var gameNow = true                  // ゲーム中なら true
     var denkiCheck = false              // 電気がついてたら true
-    var gameOver = false
-    var brokenEvent = false             // broken Eventが行われていたら true
+    var gameOver = false                // gameOver なら true
+    var gameClear = false               // クリアしたら true
     
     
     
@@ -197,6 +195,8 @@ class GameScene: SKScene{
         default: message = "想定されていないエラー番号です"
         }
         
+        gameOver = true
+        
         gameSceneDelegate.gameAlert(message: message)
     }
     
@@ -253,20 +253,18 @@ class GameScene: SKScene{
     }
     
     func switchDenki(){
-        if gameNow == true {
-            switchSprite.removeFromParent()
-            denkiSprite.removeFromParent()
-            if denkiCheck == false {
-                denkiOn()
-                backgroundColor = UIColor(colorLiteralRed: 1, green: 1, blue: 1, alpha: 1)
-                denkiTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(denkiCount), userInfo: nil, repeats: true)
-                denkiCheck = true
-            }else{
-                denkiOff()
-                denkiTimer.invalidate()
-                backgroundColor = UIColor(colorLiteralRed: 0.7, green: 0.7, blue: 0.7, alpha: 1)
-                denkiCheck = false
-            }
+        switchSprite.removeFromParent()
+        denkiSprite.removeFromParent()
+        if denkiCheck == false {
+            denkiOn()
+            backgroundColor = UIColor(colorLiteralRed: 1, green: 1, blue: 1, alpha: 1)
+            denkiTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(denkiCount), userInfo: nil, repeats: true)
+            denkiCheck = true
+        }else{
+            denkiOff()
+            denkiTimer.invalidate()
+            backgroundColor = UIColor(colorLiteralRed: 0.7, green: 0.7, blue: 0.7, alpha: 1)
+            denkiCheck = false
         }
     }
     
@@ -279,7 +277,6 @@ class GameScene: SKScene{
            (difficult == 2 && denkiSeconds == 3) ||
            (difficult == 3 && denkiSeconds == 2) {
             denkiTimer.invalidate()
-            gameNow = false
             gameOver = true
             gameOverAlert(type: 1)
         }
@@ -309,8 +306,6 @@ class GameScene: SKScene{
             (difficult == 2 && mezamasiSeconds == 3) ||
             (difficult == 3 && mezamasiSeconds == 2) {
             mezamasiTimer.invalidate()
-            gameNow = false
-            gameOver = true
             gameOverAlert(type: 2)
         }
     }
@@ -349,15 +344,12 @@ class GameScene: SKScene{
             (difficult == 2 && standSecond == 3) ||
             (difficult == 3 && standSecond == 2) {
             lightStandTimer.invalidate()
-            gameNow = false
-            gameOver = true
             gameOverAlert(type: 1)
         }
         
     }
     
     func broken(){
-        brokenEvent = true
         let x = decideDifficulty()
         ballSprite = SKSpriteNode(imageNamed: "ball")
         ballSprite.position = CGPoint(x: frame.size.width/2 - 120, y: frame.size.height/2 + 130)
@@ -431,7 +423,7 @@ class GameScene: SKScene{
         remainingTime -= 1
         score += 1
         if remainingTime == 0{
-            gameNow = false
+            gameClear = true
         }
         if remainingTime == -10 {
             timer.invalidate()

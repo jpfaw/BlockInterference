@@ -33,18 +33,20 @@ class GameViewController: UIViewController, GameSceneDelegate {
         return true
     }
     //@Delegate
-    func translate() {
-        
-    }
-    //@Delegate
     func gameAlert(message: String) {
         
         let alertController = UIAlertController(title: "Game Over", message: message, preferredStyle: .alert)
-        let otherAction = UIAlertAction(title: "はい", style: .default) {
-            action in NSLog("はいボタンが押されました")
+        let Action = UIAlertAction(title: "はい", style: .default) {
+            action in self.transition()
         }
-        alertController.addAction(otherAction)
+        alertController.addAction(Action)
         present(alertController, animated: true, completion: nil)
+    }
+    
+    func transition(){
+        let targetViewController = self.storyboard!.instantiateViewController(withIdentifier: "Result")
+        targetViewController.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
+        self.present( targetViewController, animated: true, completion: nil)
     }
     
 }
