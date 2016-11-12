@@ -25,6 +25,7 @@ class GameScene: SKScene{
     var remainingTime = 30              // イベント時間
     
     var score = 0
+    var bestScore = 0
     var scoreLabelNode:SKLabelNode!
     var bestScoreLabelNode:SKLabelNode!
     var titleBackLabel:SKLabelNode!
@@ -82,15 +83,10 @@ class GameScene: SKScene{
     
     
     override func didMove(to view: SKView) {
-        /* memo
-         *
-         * 背景色は各window関数の中
-         *
-         */
-        
         
         // setup
         let difficult = decideDifficulty()
+        bestScore = userDefaults.integer(forKey: "BEST")
         physicsWorld.gravity = CGVector(dx: Double(5 - difficult)*0.07, dy: Double(5 - difficult)*(-0.05))
         self.addChild(BGM)
         
@@ -107,37 +103,12 @@ class GameScene: SKScene{
         setupDifficulty()
         setupNightWindow()
         setupSleepingMan()
+        setupBackGround()
         
         // Initial set
         time() //time内でeventManagementを起動
         denkiOff()
-        
-        //その他（実装中）
-        
-        
-        // 実装済みイベント
-        //callMezamasi()
-        //goki()
-        //lightStand()
-        //broken()
-        
-        // 実装予定イベント
-        // yuurei
-        
 
-        bgSprite = SKSpriteNode(imageNamed: "roomBG")
-        bgSprite.position = CGPoint(x: 0, y: size.height)
-        bgSprite.zPosition = -20
-        bgSprite.setScale(4.5)
-        bgSprite.alpha = 0.5
-        addChild(bgSprite)
-        
-        bgYSprite = SKSpriteNode(imageNamed: "roomYuka")
-        bgYSprite.position = CGPoint(x: 0, y: size.height / 3)
-        bgYSprite.zPosition = -30
-        bgYSprite.setScale(5)
-        bgYSprite.alpha = 0.5
-        addChild(bgYSprite)
     }
     
 
@@ -168,13 +139,11 @@ class GameScene: SKScene{
 
         // その他イベント
         print("nowData:\(nowData)")
-        if score > userDefaults.integer(forKey: "BEST") {
-            userDefaults.set(score, forKey: "BEST")
-            userDefaults.synchronize()
+        if score > bestScore {
+            bestScore = score
         }
         scoreLabelNode.text = "Score : \(score)"
-        bestScoreLabelNode.text = "Best : \(userDefaults.integer(forKey: "BEST"))"
-        
+        bestScoreLabelNode.text = "Best : \(bestScore)"
     }
     
     func eventOccur(type :Int){
@@ -692,6 +661,22 @@ class GameScene: SKScene{
         addChild(windowSprite)
     }
     
+    func setupBackGround(){
+        bgSprite = SKSpriteNode(imageNamed: "roomBG")
+        bgSprite.position = CGPoint(x: 0, y: size.height)
+        bgSprite.zPosition = -20
+        bgSprite.setScale(4.5)
+        bgSprite.alpha = 0.4
+        addChild(bgSprite)
+        
+        bgYSprite = SKSpriteNode(imageNamed: "roomYuka")
+        bgYSprite.position = CGPoint(x: 0, y: size.height / 3)
+        bgYSprite.zPosition = -30
+        bgYSprite.setScale(5)
+        bgYSprite.alpha = 0.5
+        addChild(bgYSprite)
+    }
+
 /* ----- setup function zone fin ----- */
     
 }

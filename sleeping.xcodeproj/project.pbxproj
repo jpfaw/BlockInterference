@@ -22,7 +22,6 @@
 		D6556F711DD6FDD90060631C /* rakka.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6556F6F1DD6FDD90060631C /* rakka.mp3 */; };
 		D6556F721DD6FDD90060631C /* ware.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6556F701DD6FDD90060631C /* ware.mp3 */; };
 		D6556F741DD700DC0060631C /* kasakasa.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6556F731DD700DC0060631C /* kasakasa.mp3 */; };
-		D6556F761DD703E90060631C /* obake.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6556F751DD703E90060631C /* obake.mp3 */; };
 		D6556F781DD704330060631C /* syupon.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6556F771DD704330060631C /* syupon.mp3 */; };
 		D6870F0B1DBB46C5001A5CA8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6870F0A1DBB46C5001A5CA8 /* AppDelegate.swift */; };
 		D6870F0D1DBB46C5001A5CA8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6870F0C1DBB46C5001A5CA8 /* ViewController.swift */; };
@@ -46,7 +45,6 @@
 		D6556F6F1DD6FDD90060631C /* rakka.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = rakka.mp3; sourceTree = "<group>"; };
 		D6556F701DD6FDD90060631C /* ware.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ware.mp3; sourceTree = "<group>"; };
 		D6556F731DD700DC0060631C /* kasakasa.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = kasakasa.mp3; sourceTree = "<group>"; };
-		D6556F751DD703E90060631C /* obake.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = obake.mp3; sourceTree = "<group>"; };
 		D6556F771DD704330060631C /* syupon.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = syupon.mp3; sourceTree = "<group>"; };
 		D6870F071DBB46C5001A5CA8 /* sleeping.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sleeping.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6870F0A1DBB46C5001A5CA8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -86,7 +84,6 @@
 				D6556F731DD700DC0060631C /* kasakasa.mp3 */,
 				D6556F771DD704330060631C /* syupon.mp3 */,
 				D6556F6F1DD6FDD90060631C /* rakka.mp3 */,
-				D6556F751DD703E90060631C /* obake.mp3 */,
 				D6556F701DD6FDD90060631C /* ware.mp3 */,
 				D6556F6D1DD6F9BD0060631C /* mezamasiStop.mp3 */,
 				D6556F691DD6F5EF0060631C /* result.mp3 */,
@@ -161,6 +158,7 @@
 				TargetAttributes = {
 					D6870F061DBB46C5001A5CA8 = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = N49YV76SV7;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -200,7 +198,6 @@
 				D6556F5F1DD6D4F70060631C /* BGM.mp3 in Resources */,
 				D6556F6C1DD6F9100060631C /* switch.mp3 in Resources */,
 				D6556F781DD704330060631C /* syupon.mp3 in Resources */,
-				D6556F761DD703E90060631C /* obake.mp3 in Resources */,
 				D6556F611DD6D63E0060631C /* chicken.mp3 in Resources */,
 				D6556F651DD6E3B30060631C /* mezamasi.mp3 in Resources */,
 			);
@@ -340,7 +337,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = N49YV76SV7;
 				INFOPLIST_FILE = sleeping/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = yuta.i.sleeping;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -352,7 +351,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = N49YV76SV7;
 				INFOPLIST_FILE = sleeping/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = yuta.i.sleeping;
 				PRODUCT_NAME = "$(TARGET_NAME)";
