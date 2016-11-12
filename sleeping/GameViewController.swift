@@ -39,7 +39,7 @@ class GameViewController: UIViewController, GameSceneDelegate {
     func gameAlert(message: String) {
         
         let alertController = UIAlertController(title: "Game Over", message: message, preferredStyle: .alert)
-        let Action = UIAlertAction(title: "はい", style: .default) {
+        let Action = UIAlertAction(title: "結果を見る", style: .default) {
             action in self.transition()
         }
         alertController.addAction(Action)

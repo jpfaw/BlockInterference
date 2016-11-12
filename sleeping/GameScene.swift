@@ -67,6 +67,13 @@ class GameScene: SKScene{
     let BGM = SKAudioNode.init(fileNamed: "BGM.mp3")
     let chicken = SKAudioNode.init(fileNamed: "chicken.mp3")
     let mezamasiAudio = SKAudioNode.init(fileNamed: "mezamasi.mp3")
+    let mezamasiStop = SKAudioNode.init(fileNamed: "mezamasiStop.mp3")
+    let switchAudio = SKAudioNode.init(fileNamed: "switch.mp3")
+    let ballCome = SKAudioNode.init(fileNamed: "rakka.mp3")
+    let garasBroken = SKAudioNode.init(fileNamed: "ware.mp3")
+    let kasakasa = SKAudioNode.init(fileNamed: "kasakasa.mp3")
+    let syupon = SKAudioNode.init(fileNamed: "syupon.mp3")
+    
     
     
 /* ----- variable management zone fin ----- */
@@ -84,6 +91,13 @@ class GameScene: SKScene{
         let difficult = decideDifficulty()
         physicsWorld.gravity = CGVector(dx: Double(5 - difficult)*0.07, dy: Double(5 - difficult)*(-0.05))
         self.addChild(BGM)
+        
+        // audio loop false
+        switchAudio.autoplayLooped = false
+        mezamasiStop.autoplayLooped = false
+        ballCome.autoplayLooped = false
+        garasBroken.autoplayLooped = false
+        syupon.autoplayLooped = false
         
         // setup function
         setupScoreLabel()
@@ -120,7 +134,7 @@ class GameScene: SKScene{
         case (_,55):
             break
         case (_, 7):
-            callMezamasi()
+            broken()
         case (_,0):
             morning()
             wakeupMan()
@@ -156,31 +170,48 @@ class GameScene: SKScene{
                 }
                 // ゴキブリ
                 if gokiSprite != nil && tNode == gokiSprite {
+                    kasakasa.removeFromParent()
                     gokiSprite.removeFromParent()
                     score += difficult * 100
                 }
                 // 目覚まし時計
                 if mezamasiSprite != nil && tNode == mezamasiSprite {
                     mezamasiSprite.removeFromParent()
-                    mezamasiTimer.invalidate()
                     mezamasiAudio.removeFromParent()
+                    mezamasiStop.removeFromParent()
+                    mezamasiTimer.invalidate()
                     mezamasiSeconds = 0
                     score += 100
+                    
+                    let playAction = SKAction.play()
+                    mezamasiStop.run(playAction)
+                    self.addChild(mezamasiStop)
                 }
                 // 電気スタンド
                 if lightStandSprite != nil && tNode == lightStandSprite {
                     lightStandSprite.removeFromParent()
                     lightZoneSprite.removeFromParent()
+                    switchAudio.removeFromParent()
                     lightStandTimer.invalidate()
                     standSecond = 0
                     score += 100
+                    
+                    let playAction = SKAction.play()
+                    switchAudio.run(playAction)
+                    self.addChild(switchAudio)
                 }
                 // broken
                 if ballSprite != nil && tNode == ballSprite {
                     ballSprite.removeFromParent()
+                    ballCome.removeFromParent()
+                    syupon.removeFromParent()
                     ballTimer.invalidate()
                     ballSecond = 0
                     score += 200 + difficult * 10
+                    
+                    let playAction = SKAction.play()
+                    syupon.run(playAction)
+                    self.addChild(syupon)
                 }
                 // titleに戻る
                 if tNode == titleBackSprite {
@@ -221,13 +252,20 @@ class GameScene: SKScene{
         backgroundColor = UIColor(colorLiteralRed: 1, green: 1, blue: 1, alpha: 1)
 
         landscapeSprite.removeFromParent()
+        denkiSprite.removeFromParent()
         //朝の風景
         landscapeSprite = SKSpriteNode(imageNamed: "asa")
         landscapeSprite.position = CGPoint(x: frame.size.width/2 - 70, y: frame.size.height/2 + 100)
         landscapeSprite.zPosition = 97
         landscapeSprite.setScale(magnification)
         addChild(landscapeSprite)
-
+        
+        // 朝用電気
+        denkiSprite = SKSpriteNode(imageNamed: "lightM")
+        denkiSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height - 70)
+        denkiSprite.zPosition = -10
+        denkiSprite.setScale(1.5)
+        addChild(denkiSprite)
     }
     
     func wakeupMan(){
@@ -251,6 +289,7 @@ class GameScene: SKScene{
         switchSprite.zPosition = 100
         switchSprite.setScale(0.3)
         addChild(switchSprite)
+        
     }
     
     func denkiOff(){
@@ -268,18 +307,27 @@ class GameScene: SKScene{
     }
     
     func switchDenki(){
-        switchSprite.removeFromParent()
-        denkiSprite.removeFromParent()
-        if denkiCheck == false {
-            denkiOn()
-            backgroundColor = UIColor(colorLiteralRed: 1, green: 1, blue: 1, alpha: 1)
-            denkiTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(denkiCount), userInfo: nil, repeats: true)
-            denkiCheck = true
-        }else{
-            denkiOff()
-            denkiTimer.invalidate()
-            backgroundColor = UIColor(colorLiteralRed: 0.7, green: 0.7, blue: 0.7, alpha: 1)
-            denkiCheck = false
+        if gameClear != true {
+            switchAudio.removeFromParent()
+            switchSprite.removeFromParent()
+            denkiSprite.removeFromParent()
+            if denkiCheck == false {
+                denkiOn()
+                
+                backgroundColor = UIColor(colorLiteralRed: 1, green: 1, blue: 1, alpha: 1)
+                
+                denkiTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(denkiCount), userInfo: nil, repeats: true)
+                denkiCheck = true
+            }else{
+                denkiOff()
+                denkiTimer.invalidate()
+                backgroundColor = UIColor(colorLiteralRed: 0.7, green: 0.7, blue: 0.7, alpha: 1)
+                denkiCheck = false
+            }
+            
+            let playAction = SKAction.play()
+            switchAudio.run(playAction)
+            self.addChild(switchAudio)
         }
     }
     
@@ -328,6 +376,7 @@ class GameScene: SKScene{
     }
     
     func goki(){
+        
         let x = decideDifficulty()
         gokiSprite = SKSpriteNode(imageNamed: "goki")
         gokiSprite.position = CGPoint(x: -100, y:  100)
@@ -336,6 +385,16 @@ class GameScene: SKScene{
         let moveGoki = SKAction.move(to: CGPoint(x:frame.size.width + 100, y: 100) , duration: TimeInterval(x))
         gokiSprite.run(moveGoki)
         addChild(gokiSprite)
+        
+        let playAction = SKAction.play()
+        kasakasa.run(playAction)
+        self.addChild(kasakasa)
+        
+        // delay
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(x)) {
+            self.kasakasa.removeFromParent()
+            self.gokiSprite.removeFromParent()
+        }
     }
 
     func lightStand(){
@@ -350,6 +409,11 @@ class GameScene: SKScene{
         lightZoneSprite.setScale(0.7)
         addChild(lightZoneSprite)
         lightStandTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(standTimer), userInfo: nil, repeats: true)
+        
+        switchAudio.removeFromParent()
+        let playAction = SKAction.play()
+        switchAudio.run(playAction)
+        self.addChild(switchAudio)
     }
     
     func standTimer(){
@@ -380,6 +444,11 @@ class GameScene: SKScene{
         addChild(ballSprite)
         
         ballTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(comeBallTimer), userInfo: nil, repeats: true)
+        
+        ballCome.removeFromParent()
+        let playAction = SKAction.play()
+        ballCome.run(playAction)
+        self.addChild(ballCome)
     }
     
     func comeBallTimer(){
@@ -392,7 +461,18 @@ class GameScene: SKScene{
             windowSprite.setScale(0.42)
             addChild(windowSprite)
             ballSprite.removeFromParent()
-            gameOverAlert(type: 3)
+            
+            BGM.removeFromParent()
+            ballCome.removeFromParent()
+            let playAction = SKAction.play()
+            garasBroken.run(playAction)
+            self.addChild(garasBroken)
+            
+            // delay
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+                self.gameOverAlert(type: 3)
+            }
+           
         }
     }
 

@@ -45,6 +45,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         } catch {
             print("music error")
         }
+        audioPlayer.numberOfLoops = -1
         audioPlayer.play()
         //ハイスコア
         let highScore = userDefaults.integer(forKey: "BEST")

@@ -38,6 +38,7 @@ class ResultViewController: UIViewController, AVAudioPlayerDelegate {
         } catch {
             print("music error")
         }
+        audioPlayer.numberOfLoops = -1
         audioPlayer.play()
         
         
