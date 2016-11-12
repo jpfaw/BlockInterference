@@ -73,9 +73,6 @@ class ResultViewController: UIViewController, AVAudioPlayerDelegate {
         totalScore.text     = "：\(total)"
         highScore.text      = "：\(highscore)"
         
-        
-
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {

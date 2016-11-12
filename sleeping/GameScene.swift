@@ -24,6 +24,7 @@ class GameScene: SKScene{
     let userDefaults:UserDefaults = UserDefaults.standard
     var remainingTime = 30              // イベント時間
     
+    // ゲーム中の上画面のスコア関係
     var score = 0
     var bestScore = 0
     var scoreLabelNode:SKLabelNode!
@@ -67,15 +68,15 @@ class GameScene: SKScene{
     var ballSecond = 0                  // ボール飛来時間管理
     
     // music
-    let BGM = SKAudioNode.init(fileNamed: "BGM.mp3")
-    let chicken = SKAudioNode.init(fileNamed: "chicken.mp3")
-    let mezamasiAudio = SKAudioNode.init(fileNamed: "mezamasi.mp3")
-    let mezamasiStop = SKAudioNode.init(fileNamed: "mezamasiStop.mp3")
-    let switchAudio = SKAudioNode.init(fileNamed: "switch.mp3")
-    let ballCome = SKAudioNode.init(fileNamed: "rakka.mp3")
-    let garasBroken = SKAudioNode.init(fileNamed: "ware.mp3")
-    let kasakasa = SKAudioNode.init(fileNamed: "kasakasa.mp3")
-    let syupon = SKAudioNode.init(fileNamed: "syupon.mp3")
+    let BGM = SKAudioNode.init(fileNamed: "BGM.mp3")                        // ゲーム中のBGM
+    let chicken = SKAudioNode.init(fileNamed: "chicken.mp3")                // 朝の鶏の声
+    let mezamasiAudio = SKAudioNode.init(fileNamed: "mezamasi.mp3")         // 目覚ましの音
+    let mezamasiStop = SKAudioNode.init(fileNamed: "mezamasiStop.mp3")      // 目覚ましを止める音
+    let switchAudio = SKAudioNode.init(fileNamed: "switch.mp3")             // 電気のスイッチの音
+    let ballCome = SKAudioNode.init(fileNamed: "rakka.mp3")                 // ボールが来る時の音
+    let syupon = SKAudioNode.init(fileNamed: "syupon.mp3")                  // ボールが消える音
+    let garasBroken = SKAudioNode.init(fileNamed: "ware.mp3")               // 窓の割れる音
+    let kasakasa = SKAudioNode.init(fileNamed: "kasakasa.mp3")              // gokiの歩く音
     
     
     
@@ -87,6 +88,7 @@ class GameScene: SKScene{
         // setup
         let difficult = decideDifficulty()
         bestScore = userDefaults.integer(forKey: "BEST")
+            // ボール用重力設定
         physicsWorld.gravity = CGVector(dx: Double(5 - difficult)*0.07, dy: Double(5 - difficult)*(-0.05))
         self.addChild(BGM)
         
@@ -110,24 +112,23 @@ class GameScene: SKScene{
         denkiOff()
 
     }
-    
-
 
     func eventManagement(){
         let difficult = difficulty()
         let nowData = (difficult, remainingTime)
+        // イベントを発生させない空間も作る
         var random = decideRandom(min: 1, max: 7)
         if random == 6 || random == 7 {
             random = decideRandom(min: 1, max: 9)
         }
         
-        if remainingTime == 0{
+        if remainingTime == 0{   // ゲーム終了
             morning()
             wakeupMan()
             eventTimer.invalidate()
             bgSprite.alpha = 1
             bgYSprite.alpha = 1
-        }else{
+        }else{                  // ゲーム中
             if difficult == 1 && remainingTime % 5 == 0 {
                 eventOccur(type: random)
             }else if difficult == 2 && remainingTime % 4 == 0 {
@@ -225,7 +226,8 @@ class GameScene: SKScene{
                 if tNode == titleBackSprite {
                     timer.invalidate()
                     eventTimer.invalidate()
-                    BGM.removeFromParent()
+                    removeAllActions()
+                    removeAllChildren()
                     gameSceneDelegate.returnTitle()
                 }
                 scoreLabelNode.text = "Score : \(score)"
@@ -234,7 +236,7 @@ class GameScene: SKScene{
     }
     
 
-    
+    // ゲームオーバー時のメッセージ設定
     func gameOverAlert(type: Int){
         timer.invalidate()
         eventTimer.invalidate()
@@ -258,7 +260,6 @@ class GameScene: SKScene{
 /* ----- Event Function Zone ----- */
     func morning(){
         backgroundColor = UIColor(colorLiteralRed: 1, green: 1, blue: 1, alpha: 1)
-
         landscapeSprite.removeFromParent()
         denkiSprite.removeFromParent()
         //朝の風景
