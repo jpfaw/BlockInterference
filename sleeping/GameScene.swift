@@ -59,9 +59,8 @@ class GameScene: SKScene{
     var mezamasiTimer = Timer()         // 目覚ましが鳴っている時間
     var lightStandTimer = Timer()       // ライトスタンドがついている時間
     var ballTimer = Timer()             // ボール飛来
-    var timerBehavior = false           // 未使用
     
-    let magnification:CGFloat = 0.5     // オブジェクトの倍率管理
+    var magnification:CGFloat = 0.5     // オブジェクトの倍率管理
     var denkiSeconds = 0                // 電気つけて経った時間
     var mezamasiSeconds = 0             // 目覚まし鳴ってからの時間
     var standSecond = 0                 // 電気スタンドがついている時間
@@ -88,6 +87,8 @@ class GameScene: SKScene{
         // setup
         let difficult = decideDifficulty()
         bestScore = userDefaults.integer(forKey: "BEST")
+        device()    //デバイスによってスケールの変更
+        
             // ボール用重力設定
         physicsWorld.gravity = CGVector(dx: Double(5 - difficult)*0.07, dy: Double(5 - difficult)*(-0.05))
         self.addChild(BGM)
@@ -273,7 +274,7 @@ class GameScene: SKScene{
         denkiSprite = SKSpriteNode(imageNamed: "lightM")
         denkiSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height - 70)
         denkiSprite.zPosition = -10
-        denkiSprite.setScale(1.5)
+        denkiSprite.setScale(magnification + 1.0)
         addChild(denkiSprite)
     }
     
@@ -290,13 +291,13 @@ class GameScene: SKScene{
         denkiSprite = SKSpriteNode(imageNamed: "light_on")
         denkiSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height - 70)
         denkiSprite.zPosition = -10
-        denkiSprite.setScale(1.5)
+        denkiSprite.setScale(magnification + 1.0)
         addChild(denkiSprite)
         
         switchSprite = SKSpriteNode(imageNamed: "switch_on")
         switchSprite.position = CGPoint(x: 50, y: frame.size.height/2 - 60)
         switchSprite.zPosition = 100
-        switchSprite.setScale(0.3)
+        switchSprite.setScale(magnification - 0.2)
         addChild(switchSprite)
         
     }
@@ -305,13 +306,13 @@ class GameScene: SKScene{
         denkiSprite = SKSpriteNode(imageNamed: "light_off")
         denkiSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height - 70)
         denkiSprite.zPosition = -10
-        denkiSprite.setScale(1.5)
+        denkiSprite.setScale(magnification + 1.0)
         addChild(denkiSprite)
         
         switchSprite = SKSpriteNode(imageNamed: "switch_off")
         switchSprite.position = CGPoint(x: 50, y: frame.size.height/2 - 60)
         switchSprite.zPosition = 100
-        switchSprite.setScale(0.3)
+        switchSprite.setScale(magnification - 0.2)
         addChild(switchSprite)
     }
     
@@ -360,7 +361,7 @@ class GameScene: SKScene{
         mezamasiSprite = SKSpriteNode(texture: mezamasiTextureA)
         mezamasiSprite.position = CGPoint(x: frame.size.width - 70, y: frame.size.height/2 - 130)
         mezamasiSprite.zPosition = 97
-        mezamasiSprite.setScale(0.3)
+        mezamasiSprite.setScale(magnification - 0.2)
         mezamasiSprite.run(mezamasi)
         addChild(mezamasiSprite)
         addChild(mezamasiAudio)
@@ -413,7 +414,7 @@ class GameScene: SKScene{
         lightZoneSprite = SKSpriteNode(imageNamed: "lightZone")
         lightZoneSprite.position = CGPoint(x: frame.size.width/2, y: frame.size.height/2 - 100)
         lightZoneSprite.zPosition = 80
-        lightZoneSprite.setScale(0.7)
+        lightZoneSprite.setScale(magnification + 0.2)
         addChild(lightZoneSprite)
         lightStandTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(standTimer), userInfo: nil, repeats: true)
         
@@ -445,7 +446,7 @@ class GameScene: SKScene{
         ballSprite.setScale(0.01)
         
         // ballの動き
-        let scaleFluctuationBall = SKAction.scale(to: 0.12, duration: TimeInterval(x))
+        let scaleFluctuationBall = SKAction.scale(to: 0.2, duration: TimeInterval(x))
         ballSprite.physicsBody = SKPhysicsBody(circleOfRadius: 1)
         ballSprite.run(scaleFluctuationBall)
         addChild(ballSprite)
@@ -565,6 +566,16 @@ class GameScene: SKScene{
         }else {
             print("error")
             return 0
+        }
+    }
+    
+    func device(){
+        let display: CGRect  = UIScreen.main.bounds
+        
+        if display.size.height <= 667{
+            magnification = 0.5
+        } else if display.size.height > 667 { // iPhone 6 Plus
+            magnification = 0.9
         }
     }
     
