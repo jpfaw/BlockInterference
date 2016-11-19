@@ -13,22 +13,24 @@ class ResultViewController: UIViewController, AVAudioPlayerDelegate {
     
     let userDefaults:UserDefaults = UserDefaults.standard
     var audioPlayer:AVAudioPlayer!
-    
+
+
+
+    @IBOutlet weak var picture: UIImageView!
     @IBOutlet weak var normalScore: UILabel!
     @IBOutlet weak var clearBonus: UILabel!
     @IBOutlet weak var levelBonus: UILabel!
     @IBOutlet weak var totalScore: UILabel!
     @IBOutlet weak var highScore: UILabel!
-
-    @IBOutlet weak var picture: UIImageView!
-
+    
     @IBAction func returnTitle(_ sender: Any) {
         audioPlayer.stop()
+        _ = navigationController?.popToRootViewController(animated: true)
+        
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         do {
             let filePath = Bundle.main.path(forResource: "result", ofType: "mp3")
             let audioPath = NSURL(fileURLWithPath: filePath!)
@@ -40,8 +42,6 @@ class ResultViewController: UIViewController, AVAudioPlayerDelegate {
         }
         audioPlayer.numberOfLoops = -1
         audioPlayer.play()
-        
-        
         
         let difficult = userDefaults.integer(forKey: "DIFFICULT")
         var highscore = userDefaults.integer(forKey: "BEST")
@@ -80,7 +80,6 @@ class ResultViewController: UIViewController, AVAudioPlayerDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-
     //status barの削除
     override var prefersStatusBarHidden: Bool {
         return true

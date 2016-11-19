@@ -23,6 +23,10 @@ class GameViewController: UIViewController, GameSceneDelegate {
         scene.gameSceneDelegate = self
         skView.presentScene(scene)
     }
+    override func loadView() {
+        let mySize: CGSize = UIScreen.main.bounds.size
+        self.view = SKView(frame: CGRect(x: 0, y: 0, width: mySize.width, height: mySize.height))
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -33,6 +37,7 @@ class GameViewController: UIViewController, GameSceneDelegate {
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
     //@Delegate
     func gameAlert(message: String) {
         
@@ -49,9 +54,11 @@ class GameViewController: UIViewController, GameSceneDelegate {
         userDefaults.set(score, forKey: "SCORE")
         userDefaults.set(clear, forKey: "CLEAR")
         userDefaults.synchronize()
-        let targetViewController = self.storyboard!.instantiateViewController(withIdentifier: "Result")
-        targetViewController.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
-        self.present(targetViewController, animated: true, completion: nil)
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let resultPage = storyboard.instantiateViewController(withIdentifier: "Result")
+        navigationController?.pushViewController(resultPage, animated: true)
+
     }
     
     //@Delegate
@@ -66,10 +73,10 @@ class GameViewController: UIViewController, GameSceneDelegate {
             self.transition()
         }
     }
+    
     func returnTitle(){
-        let targetViewController = self.storyboard!.instantiateViewController(withIdentifier: "Title")
-        self.present(targetViewController, animated: true, completion: nil)
-
+        _ = navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
     
 }

@@ -22,7 +22,7 @@ class GameScene: SKScene{
 /* ----- variable management zone ----- */
     // important
     let userDefaults:UserDefaults = UserDefaults.standard
-    var remainingTime = 30              // イベント時間
+    var remainingTime = 30         // イベント時間
     
     // ゲーム中の上画面のスコア関係
     var score = 0
@@ -625,23 +625,26 @@ class GameScene: SKScene{
         difficultyLabel.fontColor = UIColor.black
         difficultyLabel.alpha = 1
         difficultyLabel.position = CGPoint(x: frame.size.width - 80, y: frame.size.height - 30)
-        difficultyLabel.text = "difficulty:\(difficult)"
         difficultyLabel.fontName = "Al-Bayan-Bold"
         difficultyLabel.horizontalAlignmentMode = .center
         difficultyLabel.zPosition = 100
-        addChild(difficultyLabel)
+        
         
         //難易度によって難易度ラベルの背景色を変更
         var bg : SKSpriteNode!
         switch difficult {
         case 1:  bg = SKSpriteNode(color: UIColor.green  , size: CGSize(width: 150, height: 30))
+            difficultyLabel.text = "EASY"
         case 2:  bg = SKSpriteNode(color: UIColor.orange , size: CGSize(width: 150, height: 30))
+            difficultyLabel.text = "NORMAL"
         case 3:  bg = SKSpriteNode(color: UIColor.red    , size: CGSize(width: 150, height: 30))
+            difficultyLabel.text = "HARD"
         default: bg = SKSpriteNode(color: UIColor.black  , size: CGSize(width: 150, height: 30))
         }
         bg.position = CGPoint(x: frame.size.width - 80, y: frame.size.height - 20)
         bg.zPosition = 99
         addChild(bg)
+        addChild(difficultyLabel)
     }
     
     func setupNightWindow(){
@@ -665,19 +668,19 @@ class GameScene: SKScene{
     func setupBackGround(){
         bgSprite = SKSpriteNode(imageNamed: "roomBG")
         bgSprite.position = CGPoint(x: 0, y: size.height)
+        bgSprite.scale(to: CGSize(width: frame.size.width * 2, height: frame.size.height))
         bgSprite.zPosition = -20
-        bgSprite.setScale(4.5)
         bgSprite.alpha = 0.4
         addChild(bgSprite)
         
         bgYSprite = SKSpriteNode(imageNamed: "roomYuka")
-        bgYSprite.position = CGPoint(x: 0, y: size.height / 3)
+        bgYSprite.position = CGPoint(x: 0, y: 0)
         bgYSprite.zPosition = -30
-        bgYSprite.setScale(5)
+        bgYSprite.scale(to: CGSize(width: frame.size.width * 2, height: frame.size.height))
         bgYSprite.alpha = 0.5
         addChild(bgYSprite)
     }
-
+    
 /* ----- setup function zone fin ----- */
     
 }

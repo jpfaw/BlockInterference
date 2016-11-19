@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="a3x-ko-xJo">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,10 +10,26 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="hey-NP-vMk">
+            <objects>
+                <navigationController navigationBarHidden="YES" id="a3x-ko-xJo" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="dTb-tA-eGg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="C0t-UV-ah2"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Evx-KK-gSB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-999" y="71"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="Title" id="BYZ-38-t0r" customClass="ViewController" customModule="sleeping" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Title" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="ViewController" customModule="sleeping" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -32,7 +48,6 @@
                                 </state>
                                 <connections>
                                     <action selector="easy:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UOu-Es-xPn"/>
-                                    <segue destination="BHa-OF-SUE" kind="show" id="Pki-LD-kTb"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XnE-c1-uJf">
@@ -42,7 +57,6 @@
                                 </state>
                                 <connections>
                                     <action selector="normal:" destination="BYZ-38-t0r" eventType="touchUpInside" id="V65-14-S5l"/>
-                                    <segue destination="BHa-OF-SUE" kind="show" id="qgX-tZ-OdG"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FIi-dw-cLr">
@@ -52,26 +66,19 @@
                                 </state>
                                 <connections>
                                     <action selector="hard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="igP-Cp-Mpe"/>
-                                    <segue destination="BHa-OF-SUE" kind="show" id="RnO-wD-jQO"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e7X-p3-Bu2">
-                                <rect key="frame" x="118" y="587" width="200" height="20.5"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="zpb-pH-xSh"/>
-                                </constraints>
+                                <rect key="frame" x="166.5" y="587" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rogo" translatesAutoresizingMaskIntoConstraints="NO" id="fUc-jS-m8v">
-                                <rect key="frame" x="20" y="70" width="335" height="150"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="e7X-p3-Bu2" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="118" id="038-4P-hnN"/>
                             <constraint firstItem="FIi-dw-cLr" firstAttribute="width" secondItem="IJi-Tp-dgn" secondAttribute="width" id="1mg-KG-2Ds"/>
+                            <constraint firstItem="e7X-p3-Bu2" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="7zY-EA-lW1"/>
                             <constraint firstAttribute="trailing" secondItem="BJA-Jt-iy8" secondAttribute="trailing" id="8Jq-fh-hZn"/>
                             <constraint firstItem="BJA-Jt-iy8" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="9dz-IX-uP9"/>
                             <constraint firstItem="IJi-Tp-dgn" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="Epa-eg-dh0"/>
@@ -79,7 +86,6 @@
                             <constraint firstItem="XnE-c1-uJf" firstAttribute="leading" secondItem="IJi-Tp-dgn" secondAttribute="trailing" constant="10" id="ITP-zq-wsz"/>
                             <constraint firstItem="XnE-c1-uJf" firstAttribute="height" secondItem="IJi-Tp-dgn" secondAttribute="height" id="MAr-dm-dQl"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="IJi-Tp-dgn" secondAttribute="bottom" constant="100" id="OGj-HV-HJ4"/>
-                            <constraint firstItem="fUc-jS-m8v" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="50" id="P1n-qd-dbx"/>
                             <constraint firstItem="FIi-dw-cLr" firstAttribute="leading" secondItem="XnE-c1-uJf" secondAttribute="trailing" constant="10" id="RR6-wv-G7v"/>
                             <constraint firstItem="e7X-p3-Bu2" firstAttribute="top" secondItem="XnE-c1-uJf" secondAttribute="bottom" constant="20" id="TVM-tw-oef"/>
                             <constraint firstItem="XnE-c1-uJf" firstAttribute="width" secondItem="IJi-Tp-dgn" secondAttribute="width" id="TXh-Uc-n5j"/>
@@ -87,21 +93,19 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="FIi-dw-cLr" secondAttribute="bottom" constant="100" id="XeE-QS-feq"/>
                             <constraint firstItem="FIi-dw-cLr" firstAttribute="height" secondItem="IJi-Tp-dgn" secondAttribute="height" id="bOv-Kw-6gd"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="XnE-c1-uJf" secondAttribute="bottom" constant="100" id="kAS-sd-6d3"/>
-                            <constraint firstItem="fUc-jS-m8v" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="kFl-T7-hHR"/>
                             <constraint firstAttribute="trailingMargin" secondItem="FIi-dw-cLr" secondAttribute="trailing" constant="10" id="km5-hQ-HH8"/>
-                            <constraint firstAttribute="trailing" secondItem="fUc-jS-m8v" secondAttribute="trailing" constant="20" id="ng4-gM-5XF"/>
                             <constraint firstItem="BJA-Jt-iy8" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="pNF-Y0-Eef"/>
                             <constraint firstItem="FIi-dw-cLr" firstAttribute="leading" secondItem="XnE-c1-uJf" secondAttribute="trailing" constant="10" id="rcR-c2-7RG"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="GuF-Or-MyT"/>
                     <connections>
-                        <outlet property="HighScoreLabel" destination="e7X-p3-Bu2" id="VfH-T4-0ie"/>
-                        <outlet property="titleLogo" destination="fUc-jS-m8v" id="P4y-Jj-zhx"/>
+                        <outlet property="HighScoreLabel" destination="e7X-p3-Bu2" id="jdk-5Y-b4h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-58.399999999999999" y="9.4452773613193415"/>
+            <point key="canvasLocation" x="-338" y="58"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="Jh3-fG-KMw">
@@ -119,12 +123,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g8k-f9-zio" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="797.60000000000002" y="8.5457271364317844"/>
+            <point key="canvasLocation" x="518" y="71"/>
         </scene>
         <!--Result View Controller-->
         <scene sceneID="SwF-Fm-iGf">
             <objects>
-                <viewController storyboardIdentifier="Result" id="rVC-WS-0pY" customClass="ResultViewController" customModule="sleeping" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Result" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rVC-WS-0pY" customClass="ResultViewController" customModule="sleeping" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tud-Je-2c2"/>
                         <viewControllerLayoutGuide type="bottom" id="AOf-Rz-4xt"/>
@@ -222,7 +226,6 @@
                                 </state>
                                 <connections>
                                     <action selector="returnTitle:" destination="rVC-WS-0pY" eventType="touchUpInside" id="y1K-Md-tWn"/>
-                                    <segue destination="BYZ-38-t0r" kind="show" id="2AR-mj-xn5"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nobi" translatesAutoresizingMaskIntoConstraints="NO" id="6zA-Xl-7NJ">
@@ -289,25 +292,21 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="clearBonus" destination="DZx-5W-vTf" id="wZi-sy-e4j"/>
-                        <outlet property="highScore" destination="io6-Mp-ykh" id="s5k-fo-JDn"/>
-                        <outlet property="levelBonus" destination="Z9j-0P-WB0" id="1gj-oN-Dqh"/>
-                        <outlet property="normalScore" destination="a4y-gK-4cf" id="exy-jl-A4W"/>
-                        <outlet property="picture" destination="6zA-Xl-7NJ" id="Kyr-J6-6L4"/>
-                        <outlet property="totalScore" destination="QJS-BR-ehU" id="b1E-8I-BSh"/>
+                        <outlet property="clearBonus" destination="DZx-5W-vTf" id="pBK-eX-oOe"/>
+                        <outlet property="highScore" destination="io6-Mp-ykh" id="bbl-WA-qmY"/>
+                        <outlet property="levelBonus" destination="Z9j-0P-WB0" id="wCx-P1-E62"/>
+                        <outlet property="normalScore" destination="a4y-gK-4cf" id="DZb-6d-mJT"/>
+                        <outlet property="picture" destination="6zA-Xl-7NJ" id="b5k-Bl-PJs"/>
+                        <outlet property="totalScore" destination="QJS-BR-ehU" id="oNa-h1-XVb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C1Z-az-Mmf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1544.8" y="8.5457271364317844"/>
+            <point key="canvasLocation" x="1196" y="71"/>
         </scene>
     </scenes>
     <resources>
         <image name="hosizora" width="375" height="667"/>
         <image name="nobi" width="339" height="400"/>
-        <image name="rogo" width="320" height="150"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="qgX-tZ-OdG"/>
-    </inferredMetricsTieBreakers>
 </document>
